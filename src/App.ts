@@ -8,6 +8,7 @@ import { Header } from './components/Header';
 import { Onboarding } from './components/Onboarding';
 import { ProfileModal } from './components/ProfileModal';
 import { FormDrafts } from './components/FormDrafts';
+import { DomReconciler } from './components/DomReconciler';
 import { mergeHandlers, type AppContext, type FieldElement, type Handlers, type UiState } from './models/AppContextModel';
 import { DateService } from './services/DateService';
 import { LifeClockService } from './services/LifeClockService';
@@ -131,7 +132,7 @@ export class App {
   }
 
   /**
-   * @description 渲染整個畫面並重建事件處理表（保留捲動位置與焦點）
+   * @description 增量更新畫面並重建事件處理表（保留捲動位置與焦點）
    * @returns 無
    */
   private render(): void {
@@ -142,8 +143,8 @@ export class App {
     const focusId = isField(focused) ? focused.id : '';
     const view = { today: TodayView, explore: ExploreView, goals: GoalsView, review: ReviewView }[ui.tab];
     const body = ui.tab === 'explore' ? ExploreView.render(this.ctx) : view.render(this.ctx, profile);
-    this.root.innerHTML = `${Header.render(profile)}<main>${body}</main>${BottomNav.render(ui.tab)}
-      ${ui.showProfile ? ProfileModal.render(profile) : ''}${ui.onboardingStep ? Onboarding.render(ui.onboardingStep) : ''}`;
+    DomReconciler.update(this.root, `${Header.render(profile)}<main>${body}</main>${BottomNav.render(ui.tab)}
+      ${ui.showProfile ? ProfileModal.render(profile) : ''}${ui.onboardingStep ? Onboarding.render(ui.onboardingStep) : ''}`);
     this.handlers = mergeHandlers(
       Header.handlers(this.ctx), BottomNav.handlers(this.ctx), view.handlers(this.ctx),
       ProfileModal.handlers(this.ctx), Onboarding.handlers(this.ctx),
@@ -156,8 +157,8 @@ export class App {
       target.scrollIntoView({ block: 'start' });
       target.focus({ preventScroll: true });
     } else {
-      window.scrollTo(0, y);
-      if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
+      if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y);
+      if (focusId && document.activeElement?.id !== focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
     }
   }
 }
