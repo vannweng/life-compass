@@ -1,0 +1,48 @@
+/* 目標 */
+.clock-hero { background: linear-gradient(140deg, #2a2418, #1b241c 55%, #1f3320); }
+[data-theme='light'] .clock-hero { background: linear-gradient(140deg, #fdf0dd, #f3f9e8 60%, #e6f6cf); }
+.clock-hero__headline { display: flex; align-items: baseline; gap: 5px; font-size: 13px; }
+.clock-hero__headline .num { color: var(--warm); font-size: 30px; font-weight: 800; line-height: 1; }
+.clock-hero__msg { margin-top: 4px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+.clock-hero__msg b { color: var(--text); }
+.clock-hero__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 7px; }
+.stat { background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: 5px 4px; text-align: center; }
+.stat b { display: block; font-size: 17px; line-height: 1.2; font-family: var(--font-num); }
+.stat span { font-size: 10px; color: var(--muted); }
+
+.focus-slot { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: var(--radius-md); background: var(--card-hi); margin-bottom: 4px; }
+.focus-slot--empty { border: 2px dashed var(--line); background: transparent; color: var(--muted); justify-content: center; font-size: 13px; }
+
+.goal-add { display: flex; flex-direction: column; gap: 6px; }
+.goal-add__row { display: flex; gap: 6px; }
+.goal-add__row > * { flex: 1; min-width: 0; }
+.cat-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.goal-actions { display: flex; gap: 4px; }
+.mini-btn { width: 32px; height: 32px; border-radius: var(--radius-md); display: grid; place-items: center; background: var(--card-hi); color: var(--muted); transition: all 0.2s; }
+.mini-btn:hover { color: var(--text); }
+.mini-btn.is-on { background: var(--warm-soft); color: var(--warm); }
+
+/* 回顧 */
+.cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.day-detail { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 14px; }
+.day-detail p { margin: 2px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* 每列三年的月份，將區塊高度壓縮至原本約一半，保留文字可讀性。 */
+.life-grid { display: grid; grid-template-columns: repeat(36, minmax(0, 1fr)); gap: 1px; }
+.life-grid i { aspect-ratio: 1; border-radius: 50%; background: var(--warm); opacity: 0.85; }
+.life-grid i.lived { background: var(--line); opacity: 0.45; }
+.life-grid i.now { background: var(--accent); opacity: 1; box-shadow: 0 0 4px var(--accent); animation: pulse 1.6s infinite; }
+@keyframes pulse { 50% { transform: scale(1.2); } }
+
+.mood-trend { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+.mood-trend span { flex: 1; border-radius: 4px 4px 0 0; background: var(--card-hi); min-height: 4px; }
+
+/* 個人中心 / 引導 */
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--card-hi); padding: 4px; border-radius: var(--radius-md); }
+.seg button { padding: 8px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; color: var(--muted); }
+.seg button.is-active { background: var(--accent); color: var(--accent-ink); }
+.ob-dots { display: flex; gap: 4px; justify-content: center; margin-bottom: 10px; }
+.ob-dots i { width: 22px; height: 4px; border-radius: 9px; background: var(--line); }
+.ob-dots i.is-on { background: var(--accent); }
+.ob-big { font-size: 20px; font-weight: 900; line-height: 1.35; margin-bottom: 6px; }
+.ob-hint { padding: 7px 9px; border-radius: var(--radius-md); background: var(--warm-soft); color: var(--warm); font-size: 13px; margin: 6px 0; line-height: 1.5; }

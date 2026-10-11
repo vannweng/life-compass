@@ -1,0 +1,74 @@
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 12px; position: relative; overflow: hidden;
+}
+.card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; }
+.card__sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px;
+  border-radius: var(--radius-md); font-weight: 800; font-size: 13px; transition: transform 0.15s var(--ease), filter 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn--primary { background: var(--accent); color: var(--accent-ink); }
+.btn--primary:hover { filter: brightness(1.08); }
+.btn--ghost { background: var(--card-hi); border: 1px solid var(--line); }
+.btn--sm { height: 40px; padding: 0 10px; font-size: 12px; border-radius: var(--radius-md); }
+.btn--block { width: 100%; }
+.icon-btn.icon-btn--plain, .mini-btn.mini-btn--plain {
+  background: transparent; border-color: transparent; box-shadow: none;
+}
+.link-btn { color: var(--accent); font-size: 12px; font-weight: 700; display: inline-flex; gap: 4px; align-items: center; }
+
+.field, .textarea {
+  width: 100%; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md);
+  padding: 8px 10px; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field:focus, .textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.textarea { resize: vertical; min-height: 68px; line-height: 1.5; }
+select.field {
+  appearance: none; min-height: 40px; padding: 6px 34px 6px 10px;
+  border-radius: var(--radius-md); font-size: 14px; line-height: 1.35; background-repeat: no-repeat;
+  background-position: right 12px center; background-size: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238fa090' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+.field-row { display: flex; gap: 6px; }
+.field-label { font-size: 12px; color: var(--muted); font-weight: 700; margin: 5px 0 3px; display: block; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  background: var(--card-hi); border: 1px solid var(--line); color: var(--muted); transition: all 0.2s var(--ease); white-space: nowrap;
+}
+.chip.is-active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip-row { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 4px; scrollbar-width: none; }
+.chip-row::-webkit-scrollbar { display: none; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+
+.progress { height: 6px; border-radius: 99px; background: var(--card-hi); overflow: hidden; }
+.progress > span { display: block; height: 100%; background: linear-gradient(90deg, var(--warm), var(--accent)); border-radius: 99px; transition: width 0.6s var(--ease); }
+
+.check { width: 24px; height: 24px; border-radius: var(--radius-md); border: 2px solid var(--line); display: grid; place-items: center; flex: none; color: transparent; transition: all 0.2s var(--ease); }
+.check.is-on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); transform: scale(1.05); }
+
+.row { display: flex; align-items: center; gap: 6px; padding: 3px 0; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: none; }
+.row__main { flex: 1; min-width: 0; }
+.row__title { font-weight: 600; overflow-wrap: anywhere; }
+.row.is-done .row__title { text-decoration: line-through; color: var(--muted); }
+.row__meta { font-size: 11px; color: var(--muted); }
+
+.empty { text-align: center; color: var(--muted); padding: 10px 6px; font-size: 12px; }
+.empty b { display: block; color: var(--text); margin-bottom: 3px; font-size: 13px; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px);
+  display: flex; align-items: flex-end; justify-content: center; z-index: 50; animation: fade 0.25s;
+}
+.modal {
+  width: min(100%, var(--max-w)); max-height: 92vh; overflow-y: auto; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
+  animation: sheet 0.4s var(--ease);
+}
+.modal__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes sheet { from { transform: translateY(40px); opacity: 0; } }

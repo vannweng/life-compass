@@ -1,0 +1,59 @@
+/* 手機與觸控共用：保持內容可縮放，主要操作區約 40px。 */
+html { scroll-padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px); }
+body, #app-root { min-height: 100dvh; }
+#app-root {
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}
+main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
+.card { overflow-wrap: anywhere; scroll-margin-top: 20px; }
+.card__head { flex-wrap: wrap; }
+.card__head .link-btn { flex-shrink: 0; }
+.field, .textarea { font-size: 16px; }
+.field { min-height: 44px; }
+.field-row { flex-wrap: wrap; }
+.field-row > .field:first-child { flex: 1 1 140px; }
+.app-header { gap: 8px; }
+.app-header__text { min-width: 0; overflow-wrap: anywhere; }
+.app-header__right { flex-shrink: 0; }
+.app-header__title { font-size: clamp(18px, 3vw, 26px); }
+.btn, .icon-btn, .mini-btn, .link-btn, .energy-btn, .mood-btn,
+.chip, .odyssey-tab, .seg button, .rating button { min-height: 40px; }
+.icon-btn, .mini-btn, .rating button { min-width: 40px; }
+.energy-row, .mood-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.energy-btn { font-size: 12px; }
+.flow-toggle { min-height: 40px; }
+.flow-toggle input { width: 22px; height: 22px; flex-shrink: 0; }
+.gt-item__time, .gt-item__flow { flex-shrink: 0; }
+.toast { max-width: calc(100% - 32px); bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px); }
+.modal { max-height: 92dvh; }
+
+/* 平板窄視窗先放寬單欄，直向與橫向皆依可用寬度排版。 */
+@media (min-width: 600px) {
+  :root { --max-w: 760px; }
+  #app-root { padding-left: 16px; padding-right: 16px; }
+  .card { padding: 14px; }
+  .view { gap: 10px; }
+  .modal-overlay { align-items: center; padding: 16px; }
+  .modal { max-width: 560px; border-radius: var(--radius-lg); }
+  .bottom-nav__item { flex-direction: row; gap: 8px; font-size: 13px; }
+}
+
+/* 平板與桌面使用雙欄，時間摘要與能量地圖保留完整寬度。 */
+@media (min-width: 768px) {
+  :root { --max-w: 1120px; --nav-h: 62px; }
+  .view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  #time-strip, #energy-insight, #odyssey-board, #life-clock-hero,
+  #goal-library, #mood-trend, #history-calendar, #life-grid { grid-column: 1 / -1; }
+}
+
+@media (max-width: 359px) {
+  #app-root { padding-left: 12px; padding-right: 12px; }
+  .card { padding: 12px; }
+  .energy-row, .mood-row { gap: 4px; }
+  .streak-chip { padding: 6px 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

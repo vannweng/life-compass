@@ -1,0 +1,43 @@
+/* 設計系統 Token：深色為預設，帶暖調點綴 */
+:root {
+  --font-base: 'Noto Sans TC', -apple-system, 'Helvetica Neue', sans-serif;
+  --font-num: 'Outfit', 'Noto Sans TC', sans-serif;
+
+  --bg: #0f1410;
+  --bg-elev: #161d17;
+  --card: #1b241c;
+  --card-hi: #243026;
+  --line: #2b3a2d;
+  --text: #f1f5ee;
+  --muted: #8fa090;
+  --accent: #b7f24a;
+  --accent-ink: #14210a;
+  --accent-soft: rgba(183, 242, 74, 0.12);
+  --warm: #ffb36b;
+  --warm-soft: rgba(255, 179, 107, 0.14);
+  --danger: #f87171;
+  --ok: #34d399;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --nav-h: 62px;
+  --max-w: 520px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='light'] {
+  --bg: #f4f7f1;
+  --bg-elev: #ffffff;
+  --card: #ffffff;
+  --card-hi: #eef5e6;
+  --line: #dfe8d6;
+  --text: #17210f;
+  --muted: #6b7a62;
+  --accent: #7bc20f;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(123, 194, 15, 0.12);
+  --warm: #e8832a;
+  --warm-soft: rgba(232, 131, 42, 0.12);
+  --shadow: 0 8px 24px rgba(40, 60, 20, 0.08);
+}

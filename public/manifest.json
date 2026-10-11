@@ -1,0 +1,12 @@
+{
+  "name": "Life Compass",
+  "short_name": "Compass",
+  "description": "每天 30 秒，找到你想過的人生",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#0f1410",
+  "theme_color": "#0f1410",
+  "lang": "zh-TW",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

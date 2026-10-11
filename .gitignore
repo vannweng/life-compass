@@ -1,0 +1,14 @@
+node_modules/
+dist/
+archive/
+icon/
+.agents/
+.cursorrules
+.windsurfrules
+implementation_plan.md
+product_plan.md
+design_system.md
+.DS_Store
+*.log
+.env.local
+.env.*.local

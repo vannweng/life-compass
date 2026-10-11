@@ -1,0 +1,57 @@
+/* 狀態分段列：選取以淡底與底線呈現，四個選項完整顯示。 */
+.goal-filters { display: grid; gap: 5px; margin-top: 8px; }
+.goal-status-tabs {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px;
+  padding: 3px; border-radius: var(--radius-md); background: var(--card-hi); border: 1px solid var(--line);
+}
+.goal-status-tab {
+  min-width: 0; min-height: 40px; padding: 5px 2px;
+  border-radius: var(--radius-md); border-bottom: 2px solid transparent;
+  color: var(--muted); font-size: 13px; font-weight: 500;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.goal-status-tab.is-active {
+  background: var(--accent-soft); color: var(--text); border-bottom-color: var(--accent); font-weight: 700;
+}
+.goal-status-tab:hover { color: var(--text); }
+
+/* 分類以較輕的小標籤呈現，可隨畫面寬度換行。 */
+.goal-category-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.goal-category-tag {
+  min-height: 40px; padding: 4px 10px; border-radius: var(--radius-md);
+  background: transparent; border: 1px solid var(--line); color: var(--muted);
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.goal-category-tag.is-active { background: var(--card-hi); border-color: var(--accent); color: var(--text); }
+.goal-category-tag:hover { color: var(--text); }
+
+/* 文字操作直接表達加入／移出本月聚焦，列表維持緊湊間距。 */
+.goal-list { margin-top: 4px; }
+.goal-list-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 4px 6px; }
+.goal-list-row .row__title { font-size: 14px; font-weight: 600; line-height: 1.45; }
+.goal-list-row .row__meta { font-size: 12px; line-height: 1.5; }
+.goal-list-row .cat-pill { font-size: 12px; }
+.goal-list-row .goal-actions { align-items: center; }
+.goal-focus-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  min-height: 40px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--radius-md);
+  background: transparent; color: var(--muted); font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.goal-focus-btn.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+.goal-focus-btn:hover { color: var(--text); }
+.goal-completed { padding: 4px 8px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+/* 窄螢幕將操作放在下一行，讓標題有足夠寬度閱讀。 */
+@media (max-width: 479px) {
+  .goal-list-row { grid-template-columns: 24px minmax(0, 1fr); }
+  .goal-list-row > .check { align-self: start; margin-top: 4px; }
+  .goal-list-row .goal-actions { grid-column: 2; justify-content: flex-end; }
+}
+
+@media (max-width: 359px) {
+  .goal-status-tab { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .goal-status-tab { transition: none; }
+}
