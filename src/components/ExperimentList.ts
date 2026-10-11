@@ -55,8 +55,8 @@ export class ExperimentList {
    */
   private static form(preset: string): string {
     return `<div class="experiment-form">
-      <input class="field" id="exp-title" placeholder="想試什麼？例如：去咖啡店當一天志工" value="${escapeHtml(preset)}" maxlength="60" />
-      <input class="field" id="exp-hyp" style="margin-top:8px" placeholder="想驗證什麼？例如：我真的喜歡和人互動嗎" maxlength="80" />
+      <input class="field" id="exp-title" data-enter-action="exp:add" placeholder="想試什麼？例如：去咖啡店當一天志工" value="${escapeHtml(preset)}" maxlength="60" />
+      <input class="field" id="exp-hyp" data-enter-action="exp:add" style="margin-top:8px" placeholder="想驗證什麼？例如：我真的喜歡和人互動嗎" maxlength="80" />
       <div class="field-row" style="margin-top:8px"><select class="field" id="exp-type"><option value="experience">親身體驗</option><option value="interview">找人聊聊</option></select>
       <button class="btn btn--primary" data-action="exp:add">建立</button><button class="btn btn--ghost" data-action="exp:cancel">取消</button></div></div>`;
   }

@@ -30,7 +30,7 @@ export class GoalLibrary {
       <section class="card" id="goal-library">
         <div class="card__head"><h3>人生清單</h3></div>
         <div class="goal-add">
-          <input class="field" id="goal-title" placeholder="寫下一個想做的事…" maxlength="60" />
+          <input class="field" id="goal-title" data-enter-action="goal:add" placeholder="寫下一個想做的事…" maxlength="60" />
           <div class="goal-add__row"><select class="field" id="goal-cat">${catOpts}</select><select class="field" id="goal-stage">${stageOpts}</select>
           <button class="btn btn--primary" id="goal-add-btn" data-action="goal:add">${icon(ICONS.plus, 16)}新增</button></div>
         </div>

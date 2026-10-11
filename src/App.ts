@@ -76,6 +76,7 @@ export class App {
     ProfileService.applyTheme(ProfileService.get().theme);
     this.root.addEventListener('click', (e) => this.onClick(e));
     this.root.addEventListener('input', (e) => this.onInput(e));
+    this.root.addEventListener('keydown', (e) => this.onKeyDown(e));
     this.render();
     window.setInterval(() => this.tickSeconds(), 1000);
   }
@@ -104,6 +105,21 @@ export class App {
     AppMemoryService.rememberDraft(this.ctx.ui, e.target.id, e.target.value);
     const name = e.target.dataset['input'];
     if (name) this.handlers.inputs[name]?.(e.target);
+    AppMemoryService.save(this.ctx.ui);
+  }
+
+  /**
+   * @description 在新增欄位按 Enter 時執行對應確認動作
+   * @param e 鍵盤事件
+   * @returns 無
+   */
+  private onKeyDown(e: KeyboardEvent): void {
+    if (e.key !== 'Enter' || e.isComposing || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!(e.target instanceof HTMLInputElement)) return;
+    const name = e.target.dataset['enterAction'];
+    if (!name) return;
+    e.preventDefault();
+    this.handlers.actions[name]?.(e.target);
     AppMemoryService.save(this.ctx.ui);
   }
 

@@ -32,7 +32,6 @@ export class TimeStrip {
             <p class="time-strip__metric-value"><b class="num" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</b><span>秒</span></p>
           </div>
         </div>
-        <div class="progress" aria-label="今年進度"><span style="width:${s.yearPct.toFixed(1)}%"></span></div>
       </section>`;
   }
 

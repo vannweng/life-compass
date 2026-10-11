@@ -39,7 +39,7 @@ export class TodayActions {
         <div class="card__head"><div><h3>今天的小行動</h3><p class="card__sub">${total ? `${done} / ${total} 完成` : '小到不會失敗的事就好'}</p></div></div>
         ${rows || '<div class="empty"><b>還沒有行動</b>加一個今天就能完成的小事吧</div>'}
         <div class="field-row" style="margin-top:12px">
-          <input class="field" id="act-title" placeholder="新增行動，例如：散步 15 分鐘" maxlength="40" />
+          <input class="field" id="act-title" data-enter-action="act:add" placeholder="新增行動，例如：散步 15 分鐘" maxlength="40" />
           <select class="field" id="act-repeat" style="width:92px"><option value="daily">每天</option><option value="once">一次</option></select>
           <button class="btn btn--primary" data-action="act:add" aria-label="新增行動">${icon(ICONS.plus, 16)}</button>
         </div>

@@ -40,7 +40,7 @@ export class GoodTimeQuickLog {
           <label class="flow-toggle"><input type="checkbox" id="gt-flow" data-action="gt:flow" ${ctx.ui.draftFlow ? 'checked' : ''}/>做到忘記時間</label>
         </div>
         <div class="gt-activity-field">
-          <input class="field" id="gt-activity" data-input="gt:activity" value="${escapeHtml(ctx.ui.drafts['gt-activity'] ?? '')}"
+          <input class="field" id="gt-activity" data-input="gt:activity" data-enter-action="gt:add" value="${escapeHtml(ctx.ui.drafts['gt-activity'] ?? '')}"
             placeholder="例如：和朋友聊設計、開了一整天的會…" maxlength="60" />
           <button class="mini-btn mini-btn--plain gt-activity-clear" data-action="gt:clear" aria-label="清除活動文字">${icon(ICONS.close, 16)}</button>
         </div>
