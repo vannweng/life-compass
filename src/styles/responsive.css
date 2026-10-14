@@ -47,8 +47,8 @@ main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
   #goal-library, #mood-trend, #history-calendar, #life-grid { grid-column: 1 / -1; }
 }
 
-/* iPad：指定內容成對並排，底部四個主功能貼齊可用視窗。 */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* 平板以上：指定內容成對並排，底部四個主功能貼齊可用視窗。 */
+@media (min-width: 768px) {
   #view-review #history-calendar, #view-review #life-grid,
   #view-goals #life-clock-hero, #view-goals #focus-month,
   #view-explore #energy-insight, #view-explore #experiment-list { grid-column: auto; }
