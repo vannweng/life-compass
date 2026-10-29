@@ -21,7 +21,7 @@ export class GoalListItem {
       <div class="row__main"><div class="row__title">${title}</div>
         <div class="row__meta"><span class="cat-pill"><span class="dot" style="background:${category?.color ?? '#999'}"></span>
           ${category?.name ?? '其他'}</span> · ${STAGE_MAP[goal.stage].title}</div>${ActionSources.evidence('goal', goal.id)}</div>
-      <div class="goal-actions">${!done ? `<button class="link-btn" data-action="source:goal" data-id="${goal.id}">今天一步</button>` : '<span class="goal-completed">已完成</span>'}
+      <div class="goal-actions">${!done ? `<button class="btn btn--primary" data-action="source:goal" data-id="${goal.id}">今天一步</button>` : '<span class="goal-completed">已完成</span>'}
         <button class="btn btn--ghost bare-delete-btn" data-action="goal:remove" data-id="${goal.id}" aria-label="刪除：${title}">${icon(ICONS.trash, 16)}</button>
       </div></div>`;
   }

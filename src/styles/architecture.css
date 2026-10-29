@@ -1,7 +1,6 @@
 /* 四區架構補充：融合探索卡與一生次頁。 */
-.explore-section-tabs { display: grid; grid-template-columns: 1fr 1.55fr; gap: 4px; padding: 4px; border-radius: var(--radius-md); background: var(--card-hi); }
-.explore-section-tabs button { min-height: 40px; padding: 6px 10px; border-radius: var(--radius-md); color: var(--muted); font-size: 13px; font-weight: 800; }
-.explore-section-tabs button.is-active { color: var(--accent-ink); background: var(--accent); }
+.explore-section-tabs { display: grid; grid-template-columns: 1fr 1.55fr; gap: var(--gap-control); }
+.explore-section-tabs .btn { width: 100%; }
 .exploration-hub > .card__head { margin-bottom: 2px; }
 .exploration-block { padding: 10px 0; border-top: 1px solid var(--line); }
 .exploration-block__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }

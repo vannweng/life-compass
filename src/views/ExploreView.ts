@@ -21,8 +21,8 @@ export class ExploreView {
     const odyssey = ctx.ui.exploreSection === 'odyssey';
     return `<div class="view" id="view-explore">
       <div class="explore-section-tabs" role="tablist" aria-label="探索方式">
-        <button class="${odyssey ? '' : 'is-active'}" role="tab" aria-selected="${!odyssey}" data-action="explore:section" data-section="explore">探索</button>
-        <button class="${odyssey ? 'is-active' : ''}" role="tab" aria-selected="${odyssey}" data-action="explore:section" data-section="odyssey">三種可能的人生</button>
+        <button class="btn btn--ghost ${odyssey ? '' : 'is-active'}" role="tab" aria-selected="${!odyssey}" data-action="explore:section" data-section="explore">探索</button>
+        <button class="btn btn--ghost ${odyssey ? 'is-active' : ''}" role="tab" aria-selected="${odyssey}" data-action="explore:section" data-section="odyssey">三種可能的人生</button>
       </div>
       ${odyssey ? OdysseyBoard.render(ctx) : ExplorationHub.render(ctx)}
     </div>`;

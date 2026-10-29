@@ -11,11 +11,11 @@ export class GoalFilters {
    */
   static render(status: GoalStatusFilter, category: string): string {
     const statuses = GOAL_STATUS_FILTERS.map((option: GoalFilterOption): string =>
-      `<button class="goal-status-tab ${status === option.id ? 'is-active' : ''}" data-action="goal:filter-status"
+      `<button class="btn btn--ghost goal-status-tab ${status === option.id ? 'is-active' : ''}" data-action="goal:filter-status"
         data-id="${option.id}" aria-pressed="${status === option.id}">${option.label}</button>`).join('');
     const categories: readonly CategoryTag[] = [{ id: 'all', name: '全部', color: '' }, ...DEFAULT_CATEGORIES];
     const tags = categories.map((option: CategoryTag): string =>
-      `<button class="goal-category-tag ${category === option.id ? 'is-active' : ''}" data-action="goal:filter-cat"
+      `<button class="btn btn--ghost goal-category-tag ${category === option.id ? 'is-active' : ''}" data-action="goal:filter-cat"
         data-id="${option.id}" aria-pressed="${category === option.id}">${option.name}</button>`).join('');
     return `<div class="goal-filters">
       <div class="goal-status-tabs" role="group" aria-label="清單狀態">${statuses}</div>

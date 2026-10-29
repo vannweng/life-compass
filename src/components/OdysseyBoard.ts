@@ -36,7 +36,7 @@ export class OdysseyBoard {
    * @returns HTML 字串
    */
   private static rating(plan: OdysseyPlan, key: OdysseyRating, label: string): string {
-    const btns = [1, 2, 3, 4, 5].map((n) => `<button class="${plan[key] === n ? 'is-active' : ''}" data-action="odyssey:rate" data-key="${key}" data-value="${n}">${n}</button>`).join('');
+    const btns = [1, 2, 3, 4, 5].map((n) => `<button class="btn btn--ghost ${plan[key] === n ? 'is-active' : ''}" data-action="odyssey:rate" data-key="${key}" data-value="${n}" aria-pressed="${plan[key] === n}">${n}</button>`).join('');
     return `<span class="field-label">${label}</span><div class="rating">${btns}</div>`;
   }
 
@@ -50,7 +50,7 @@ export class OdysseyBoard {
     const tpl = ODYSSEY_TEMPLATES.find((t) => t.type === type) ?? ODYSSEY_TEMPLATES[0];
     const plan = ReflectionService.getOdyssey()[type];
     if (!tpl) return '';
-    const tabs = ODYSSEY_TEMPLATES.map((t) => `<button class="odyssey-tab ${t.type === type ? 'is-active' : ''}" data-action="odyssey:tab" data-type="${t.type}">${t.label}</button>`).join('');
+    const tabs = ODYSSEY_TEMPLATES.map((t) => `<button class="btn btn--ghost odyssey-tab ${t.type === type ? 'is-active' : ''}" data-action="odyssey:tab" data-type="${t.type}" aria-pressed="${t.type === type}">${t.label}</button>`).join('');
     const years = (['year1', 'year3', 'year5'] as const).map((k) => `
       <label class="field-label" for="od-${k}">${ODYSSEY_YEAR_PROMPTS[k]}</label>
       <textarea class="textarea" id="od-${k}" style="min-height:64px" data-input="odyssey:${k}">${escapeHtml(plan[k])}</textarea>`).join('');

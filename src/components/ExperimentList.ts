@@ -48,9 +48,9 @@ export class ExperimentList {
       <div class="exp-card__controls">
         <div class="exp-card__actions">
         ${e.status !== 'done' ? `<button class="btn btn--primary" data-action="source:experiment" data-id="${e.id}">${e.status === 'doing' ? '再試一步' : '今天試一步'}</button>` : ''}
-        ${e.status === 'doing' ? `<button class="link-btn" data-action="exp:status" data-id="${e.id}" data-value="done">結束這次實驗</button>` : ''}
-        ${wantsMore && !e.promotedGoalId && !e.goalId ? `<button class="link-btn exp-card__promote" data-action="exp:promote" data-id="${e.id}">加入人生清單</button>` : ''}
-        ${e.goalId ? '<button class="link-btn" data-action="source:show-goal">回到人生清單</button>' : ''}
+        ${e.status === 'doing' ? `<button class="btn btn--ghost" data-action="exp:status" data-id="${e.id}" data-value="done">結束這次實驗</button>` : ''}
+        ${wantsMore && !e.promotedGoalId && !e.goalId ? `<button class="btn btn--ghost exp-card__promote" data-action="exp:promote" data-id="${e.id}">加入人生清單</button>` : ''}
+        ${e.goalId ? '<button class="btn btn--ghost" data-action="source:show-goal">回到人生清單</button>' : ''}
         <button class="btn btn--ghost bare-delete-btn" data-action="exp:remove" data-id="${e.id}" aria-label="刪除">${icon(ICONS.trash, 16)}</button>
       </div></div></div>`;
   }

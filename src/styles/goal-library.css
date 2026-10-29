@@ -1,29 +1,17 @@
 /* 狀態分段列：聚焦暫停期間只顯示全部、想做清單與已完成。 */
-.goal-filters { display: grid; gap: 5px; margin-top: 8px; }
+.goal-filters { display: grid; gap: var(--gap-content); margin-top: var(--space-default); }
 .goal-status-tabs {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px;
-  padding: 3px; border-radius: var(--radius-md); background: var(--card-hi); border: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-control);
 }
 .goal-status-tab {
-  min-width: 0; min-height: 40px; padding: 5px 2px;
-  border-radius: var(--radius-md); border-bottom: 2px solid transparent;
-  color: var(--muted); font-size: 13px; font-weight: 500;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  min-width: 0;
 }
-.goal-status-tab.is-active {
-  background: var(--accent-soft); color: var(--text); border-bottom-color: var(--accent); font-weight: 700;
-}
-.goal-status-tab:hover { color: var(--text); }
 
 /* 分類以較輕的小標籤呈現，可隨畫面寬度換行。 */
-.goal-category-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.goal-category-tags { display: flex; flex-wrap: wrap; gap: var(--gap-control); }
 .goal-category-tag {
-  min-height: 40px; padding: 4px 10px; border-radius: var(--radius-md);
-  background: transparent; border: 1px solid var(--line); color: var(--muted);
-  font-size: 12px; font-weight: 500; white-space: nowrap;
+  white-space: nowrap;
 }
-.goal-category-tag.is-active { background: var(--card-hi); border-color: var(--accent); color: var(--text); }
-.goal-category-tag:hover { color: var(--text); }
 
 /* 人生清單列表維持緊湊間距。 */
 .goal-list { margin-top: 4px; }
@@ -46,12 +34,4 @@
   .goal-list-row { grid-template-columns: 24px minmax(0, 1fr); }
   .goal-list-row > .check { align-self: start; margin-top: 4px; }
   .goal-list-row .goal-actions { grid-column: 2; justify-content: flex-end; }
-}
-
-@media (max-width: 359px) {
-  .goal-status-tab { font-size: 13px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .goal-status-tab { transition: none; }
 }

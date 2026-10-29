@@ -33,12 +33,10 @@
 .compare-bar { height: 6px; border-radius: var(--radius); background: var(--card-hi); overflow: hidden; margin-top: var(--space-2); }
 .compare-bar > span { display: block; height: 100%; background: var(--accent); }
 
-.odyssey-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-control); background: var(--card-hi); padding: var(--space-2); border-radius: var(--radius-md); margin-bottom: var(--space-default); }
-.odyssey-tab { padding: var(--space-default); border-radius: var(--radius-md); font-size: 13px; font-weight: 800; color: var(--muted); transition: all 0.2s; }
-.odyssey-tab.is-active { background: var(--accent); color: var(--accent-ink); }
+.odyssey-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-control); margin-bottom: var(--space-default); }
+.odyssey-tab { min-width: 0; }
 .rating { display: flex; gap: var(--gap-control); }
-.rating button { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--card-hi); font-weight: 800; font-size: 13px; color: var(--muted); }
-.rating button.is-active { background: var(--accent); color: var(--accent-ink); }
+.rating .btn { width: var(--control-height); padding-inline: 0; }
 
 .exp-card { padding: var(--space-default) 0; border-bottom: 1px solid var(--line); }
 .experiment-form { margin: var(--space-default) 0 var(--space-6); padding: var(--surface-padding); border-radius: var(--radius-lg); background: var(--card-hi); }
