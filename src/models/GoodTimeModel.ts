@@ -28,6 +28,8 @@ export interface GoodTimeEntry {
   energy: EnergyLevel;
   /** 是否進入心流（全神貫注、忘記時間） */
   isFlow: boolean;
+  /** 從已完成行動留下的能量，避免重複記錄。 */
+  actionId?: string;
 }
 
 /** @description 能量選項 */

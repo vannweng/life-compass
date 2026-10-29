@@ -1,0 +1,49 @@
+/* 四區架構補充：融合探索卡與一生次頁。 */
+.explore-section-tabs { display: grid; grid-template-columns: 1fr 1.55fr; gap: 4px; padding: 4px; border-radius: var(--radius-md); background: var(--card-hi); }
+.explore-section-tabs button { min-height: 40px; padding: 6px 10px; border-radius: var(--radius-md); color: var(--muted); font-size: 13px; font-weight: 800; }
+.explore-section-tabs button.is-active { color: var(--accent-ink); background: var(--accent); }
+.exploration-hub > .card__head { margin-bottom: 2px; }
+.exploration-block { padding: 10px 0; border-top: 1px solid var(--line); }
+.exploration-block__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.exploration-empty { color: var(--muted); font-size: 12px; padding: 4px 0; }
+.exploration-signal-list { display: grid; gap: 3px; }
+.exploration-signal { display: flex; align-items: center; gap: 7px; min-height: 34px; }
+.exploration-signal b { display: block; font-size: 13px; }
+.exploration-signal .row__main > span { display: block; color: var(--muted); font-size: 11px; }
+.signal-mark { width: 25px; height: 25px; display: grid; place-items: center; border-radius: var(--radius); font-weight: 900; flex: none; }
+.signal-mark--up { color: var(--accent); background: var(--accent-soft); }
+.signal-mark--down { color: var(--danger); background: rgba(248, 113, 113, 0.14); }
+.exploration-signal-empty { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; }
+.exploration-hub > .idea-add { padding: 10px 0; border-top: 1px solid var(--line); }
+.idea-add { display: flex; gap: 6px; }
+.idea-add .field { flex: 1; min-width: 0; }
+.idea-row { padding: 2px 0; border-bottom: 1px solid var(--line); }
+.idea-row:last-child { border-bottom: 0; }
+.idea-row__main { border-bottom: 0; }
+.idea-row .btn { flex: none; }
+.idea-step-confirm { padding: 2px 0 8px 30px; }
+.idea-step-confirm__line { display: flex; align-items: center; gap: 6px; }
+.idea-step-confirm__line .field { flex: 1; min-width: 0; }
+.exploration-archive { margin-top: 7px; }
+.exploration-archive > summary { color: var(--muted); font-size: 12px; cursor: pointer; }
+.exploration-review-link { margin-top: 7px; }
+.odyssey-save-idea { margin: 4px 0 6px; }
+
+.life-page__head { display: flex; align-items: center; gap: 12px; padding: 2px; }
+.life-page__head h2 { flex: 1; text-align: center; padding-right: 64px; }
+.life-back { min-height: 40px; }
+.life-goals { max-width: 320px; justify-self: center; }
+.life-page__note { color: var(--muted); font-size: 12px; text-align: center; padding: 4px 12px 16px; }
+
+@media (min-width: 768px) {
+  #view-explore .explore-section-tabs, #view-explore #exploration-hub, #view-explore #odyssey-board,
+  #view-today #focus-month, #view-goals #goal-library,
+  #view-review #history-calendar, #life-page > * { grid-column: 1 / -1; }
+}
+
+@media (max-width: 420px) {
+  .exploration-signal .link-btn { padding-left: 4px; }
+  .idea-step-confirm { padding-left: 0; }
+  .idea-step-confirm__line { flex-wrap: wrap; }
+  .idea-step-confirm__line .field { flex-basis: 100%; }
+}

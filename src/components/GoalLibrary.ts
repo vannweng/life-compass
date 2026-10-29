@@ -1,11 +1,10 @@
 /**
- * @description 人生清單庫：分類篩選、快速新增、聚焦與完成
+ * @description 人生清單庫：分類篩選、快速新增與完成
  * @module components/GoalLibrary
  */
 
 import type { AppContext, Handlers } from '../models/AppContextModel';
 import { DEFAULT_CATEGORIES, STAGE_MAP, isLifeStage, type CategoryTag, type Goal, type StageInfo } from '../models/GoalModel';
-import { DateService } from '../services/DateService';
 import { GoalService } from '../services/GoalService';
 import { ICONS, dataOf, icon, valueOf } from './Dom';
 import { GoalFilters } from './GoalFilters';
@@ -22,8 +21,7 @@ export class GoalLibrary {
    */
   static render(ctx: AppContext): string {
     const { goalStatusFilter: sf, goalCategoryFilter: cf } = ctx.ui;
-    const month = DateService.monthKey();
-    const rows = GoalService.filtered(sf, cf).map((goal: Goal): string => GoalListItem.render(goal, month)).join('');
+    const rows = GoalService.filtered(sf, cf).map((goal: Goal): string => GoalListItem.render(goal)).join('');
     const catOpts = DEFAULT_CATEGORIES.map((category: CategoryTag): string => `<option value="${category.id}">${category.name}</option>`).join('');
     const stageOpts = Object.values(STAGE_MAP).map((stage: StageInfo): string => `<option value="${stage.id}" ${stage.id === 'q4' ? 'selected' : ''}>${stage.title}</option>`).join('');
     return `
@@ -55,10 +53,11 @@ export class GoalLibrary {
           ctx.clearDraft('goal-title');
           ctx.refresh();
         },
+        'goal:done': (el) => { GoalService.toggleDone(dataOf(el, 'id')); ctx.refresh(); },
         'goal:remove': (el) => { GoalService.remove(dataOf(el, 'id')); ctx.refresh(); },
         'goal:filter-status': (el) => {
           const id = dataOf(el, 'id');
-          ctx.setUi({ goalStatusFilter: id === 'idea' || id === 'active' || id === 'done' ? id : 'all' });
+          ctx.setUi({ goalStatusFilter: id === 'idea' || id === 'done' ? id : 'all' });
         },
         'goal:filter-cat': (el) => ctx.setUi({ goalCategoryFilter: dataOf(el, 'id') }),
       },

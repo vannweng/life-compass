@@ -9,6 +9,7 @@ import { DateService } from '../services/DateService';
 import { GoalService } from '../services/GoalService';
 import { escapeHtml } from '../services/TextService';
 import { ICONS, dataOf, icon } from './Dom';
+import { ActionSources } from './ActionSources';
 
 /**
  * @description 本月聚焦區塊
@@ -26,7 +27,8 @@ export class FocusThisMonth {
       const done = g.status === 'done';
       return `<div class="focus-slot ${done ? 'is-done' : ''}">
         <button class="check ${done ? 'is-on' : ''}" data-action="goal:done" data-id="${g.id}" aria-label="完成">${icon(ICONS.check, 14)}</button>
-        <div class="row__main"><div class="row__title" ${done ? 'style="text-decoration:line-through;color:var(--muted)"' : ''}>${escapeHtml(g.title)}</div></div>
+        <div class="row__main"><div class="row__title" ${done ? 'style="text-decoration:line-through;color:var(--muted)"' : ''}>${escapeHtml(g.title)}</div>${ActionSources.evidence('goal', g.id)}</div>
+        ${!done ? `<button class="link-btn" data-action="source:goal" data-id="${g.id}">今天一步</button>` : ''}
         <button class="mini-btn mini-btn--plain" data-action="goal:focus" data-id="${g.id}" aria-label="移出聚焦">${icon(ICONS.close, 14)}</button></div>`;
     }).join('');
     return `

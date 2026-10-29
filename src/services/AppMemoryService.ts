@@ -19,10 +19,10 @@ export class AppMemoryService {
    * @returns 無
    */
   static save(ui: UiState): void {
-    const { tab, goalStatusFilter, goalCategoryFilter, odysseyType, calendarMonth, selectedDate,
-      draftEnergy, draftFlow, showExperimentForm, experimentPreset, drafts, onboardingStep } = ui;
-    const memory: AppMemory = { tab, goalStatusFilter, goalCategoryFilter, odysseyType, calendarMonth, selectedDate,
-      draftEnergy, draftFlow, showExperimentForm, experimentPreset, drafts, onboardingStep };
+    const { tab, exploreSection, goalStatusFilter, goalCategoryFilter, odysseyType, calendarMonth, selectedDate,
+      draftEnergy, draftFlow, showExperimentForm, experimentPreset, drafts, onboardingStep, actionEntryMode, actionEntryEnergy } = ui;
+    const memory: AppMemory = { tab, exploreSection, goalStatusFilter, goalCategoryFilter, odysseyType, calendarMonth, selectedDate,
+      draftEnergy, draftFlow, showExperimentForm, experimentPreset, drafts, onboardingStep, actionEntryMode, actionEntryEnergy };
     StorageService.set(STORAGE_KEYS.APP_MEMORY, { version: APP_MEMORY_VERSION, ...memory });
   }
 

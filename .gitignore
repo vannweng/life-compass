@@ -7,7 +7,6 @@ icon/
 .windsurfrules
 implementation_plan.md
 product_plan.md
-design_system.md
 .DS_Store
 *.log
 .env.local

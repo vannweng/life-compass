@@ -2,6 +2,38 @@
 :root {
   --font-base: 'Noto Sans TC', -apple-system, 'Helvetica Neue', sans-serif;
   --font-num: 'Outfit', 'Noto Sans TC', sans-serif;
+  /* 字級依用途命名；修改此處即可調整已系統化的元件。 */
+  --text-caption: 0.75rem;
+  --text-body: 0.875rem;
+  --text-title: 1rem;
+  --text-page: 1rem;
+  --text-input: 0.875rem;
+  --text-metric: 1.5rem;
+  --text-metric-wide: 1rem;
+  --weight-regular: 400;
+  --weight-medium: 600;
+  --weight-strong: 700;
+  --leading-body: 1.2;
+  --leading-title: 1.1;
+  --leading-metric: 1.1;
+
+  --space-1: 0px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 8px;
+  --space-6: 12px;
+  /* 語意間距：未明確定義的留白一律從 --space-default 開始。 */
+  --gap-icon: var(--space-2);
+  --gap-control: var(--space-2);
+  --gap-content: var(--space-4);
+  --space-default: var(--space-4);
+  --surface-padding: var(--space-4);
+  --page-gutter: var(--space-default);
+  --card-padding: var(--surface-padding);
+  --section-gap: var(--gap-content);
+  --control-height: 40px;
+  --icon-size: 16px;
+  --textarea-height: 80px;
 
   --bg: #0f1410;
   --bg-elev: #161d17;
@@ -11,6 +43,7 @@
   --text: #f1f5ee;
   --muted: #8fa090;
   --accent: #b7f24a;
+  --accent-text: var(--accent);
   --accent-ink: #14210a;
   --accent-soft: rgba(183, 242, 74, 0.12);
   --warm: #ffb36b;
@@ -18,8 +51,9 @@
   --danger: #f87171;
   --ok: #34d399;
 
-  --radius-lg: 18px;
-  --radius-md: 12px;
+  --radius: 12px;
+  --radius-lg: var(--radius);
+  --radius-md: var(--radius);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   --nav-h: 62px;
   --max-w: 520px;
@@ -35,7 +69,8 @@
   --text: #17210f;
   --muted: #6b7a62;
   --accent: #7bc20f;
-  --accent-ink: #ffffff;
+  --accent-ink: #17210f;
+  --accent-text: #3f6c0d;
   --accent-soft: rgba(123, 194, 15, 0.12);
   --warm: #e8832a;
   --warm-soft: rgba(232, 131, 42, 0.12);

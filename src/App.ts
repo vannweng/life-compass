@@ -19,6 +19,8 @@ import { ExploreView } from './views/ExploreView';
 import { GoalsView } from './views/GoalsView';
 import { ReviewView } from './views/ReviewView';
 import { TodayView } from './views/TodayView';
+import { LifeView } from './views/LifeView';
+import { ActionSources } from './components/ActionSources';
 
 /**
  * @description 判斷事件目標是否為表單元素
@@ -47,10 +49,12 @@ export class App {
     const profile = ProfileService.get();
     const memory = AppMemoryService.load();
     const ui: UiState = {
-      tab: 'today', goalStatusFilter: 'all', goalCategoryFilter: 'all', odysseyType: 'current',
+      page: 'main', tab: 'today', exploreSection: 'explore', goalStatusFilter: 'all', goalCategoryFilter: 'all', odysseyType: 'current',
       calendarMonth: DateService.monthKey(), selectedDate: DateService.todayKey(),
       showProfile: false, onboardingStep: profile.onboardingCompleted ? null : 1,
       draftEnergy: 0, draftFlow: false, showExperimentForm: false, experimentPreset: '',
+      activeIdeaId: null, activeActionId: null, actionBlocker: null, feedbackActionId: null, actionFeedbackDirection: null,
+      actionFeedbackEnergy: null, actionFeedbackFlow: false, actionEntryMode: 'plan', actionEntryEnergy: null,
       drafts: {}, scrollTarget: null,
       ...memory,
     };
@@ -158,11 +162,13 @@ export class App {
     const focused = document.activeElement;
     const focusId = isField(focused) ? focused.id : '';
     const view = { today: TodayView, explore: ExploreView, goals: GoalsView, review: ReviewView }[ui.tab];
-    const body = ui.tab === 'explore' ? ExploreView.render(this.ctx) : view.render(this.ctx, profile);
-    DomReconciler.update(this.root, `${Header.render(profile)}<main>${body}</main>${BottomNav.render(ui.tab)}
+    const inLife = ui.page === 'life';
+    const body = inLife ? LifeView.render(profile) : ui.tab === 'explore' ? ExploreView.render(this.ctx) : view.render(this.ctx, profile);
+    DomReconciler.update(this.root, `${Header.render(profile)}<main>${body}</main>${inLife ? '' : BottomNav.render(ui.tab)}
       ${ui.showProfile ? ProfileModal.render(profile) : ''}${ui.onboardingStep ? Onboarding.render(ui.onboardingStep) : ''}`);
     this.handlers = mergeHandlers(
-      Header.handlers(this.ctx), BottomNav.handlers(this.ctx), view.handlers(this.ctx),
+      Header.handlers(this.ctx), BottomNav.handlers(this.ctx), inLife ? LifeView.handlers(this.ctx) : view.handlers(this.ctx),
+      ActionSources.handlers(this.ctx),
       ProfileModal.handlers(this.ctx), Onboarding.handlers(this.ctx),
     );
     FormDrafts.restore(this.root, ui.drafts);

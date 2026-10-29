@@ -46,6 +46,7 @@ export class DomReconciler {
    */
   private static updateElement(current: Element, next: Element): void {
     for (const attr of Array.from(current.attributes)) {
+      if (current instanceof HTMLDetailsElement && attr.name === 'open' && !next.hasAttribute('open')) continue;
       if (!next.hasAttribute(attr.name)) current.removeAttribute(attr.name);
     }
     for (const attr of Array.from(next.attributes)) {

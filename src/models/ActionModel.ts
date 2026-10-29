@@ -12,11 +12,18 @@ export type ActionRepeat = 'daily' | 'once';
 export interface Action {
   id: string;
   title: string;
+  /** 這件事連著的在意理由 */
+  reason: string;
   /** 所屬目標 ID，可為空（獨立習慣） */
   goalId: string | null;
+  /** 此步驟所屬的小實驗；舊資料可省略。 */
+  experimentId?: string | null;
   repeat: ActionRepeat;
   createdAt: string;
   archived: boolean;
+  /** 卡住後決定的下一個小步驟 */
+  microStep?: string;
+  microStepDate?: string;
 }
 
 /**
@@ -24,6 +31,8 @@ export interface Action {
  */
 export interface ActionLog {
   actionId: string;
+  /** 保留當次實際做的小步，之後調整行動不改寫歷史。 */
+  step?: string;
   /** 完成日期 YYYY-MM-DD */
   date: string;
 }

@@ -1,7 +1,7 @@
-/* 狀態分段列：選取以淡底與底線呈現，四個選項完整顯示。 */
+/* 狀態分段列：聚焦暫停期間只顯示全部、想做清單與已完成。 */
 .goal-filters { display: grid; gap: 5px; margin-top: 8px; }
 .goal-status-tabs {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px;
   padding: 3px; border-radius: var(--radius-md); background: var(--card-hi); border: 1px solid var(--line);
 }
 .goal-status-tab {
@@ -25,7 +25,7 @@
 .goal-category-tag.is-active { background: var(--card-hi); border-color: var(--accent); color: var(--text); }
 .goal-category-tag:hover { color: var(--text); }
 
-/* 文字操作直接表達加入／移出本月聚焦，列表維持緊湊間距。 */
+/* 人生清單列表維持緊湊間距。 */
 .goal-list { margin-top: 4px; }
 .goal-list-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 4px 6px; }
 .goal-list-row .row__title { font-size: 14px; font-weight: 600; line-height: 1.45; }

@@ -85,7 +85,6 @@ export const GOAL_STATUS_LABELS: Record<GoalStatus, string> = {
 export const GOAL_STATUS_FILTERS: readonly GoalFilterOption[] = [
   { id: 'all', label: '全部' },
   { id: 'idea', label: GOAL_STATUS_LABELS.idea },
-  { id: 'active', label: GOAL_STATUS_LABELS.active },
   { id: 'done', label: GOAL_STATUS_LABELS.done },
 ];
 

@@ -8,6 +8,7 @@ import { DateService } from './DateService';
 import { GoalService } from './GoalService';
 import { STORAGE_KEYS, StorageService } from './StorageService';
 import { createId } from './TextService';
+import { ActionService } from './ActionService';
 
 /**
  * @description 探索實驗服務
@@ -29,11 +30,12 @@ export class ExperimentService {
    * @param sourceGoodTimeId 來源好時光 ID
    * @returns 新實驗
    */
-  static add(title: string, hypothesis: string, type: ExperimentType, sourceGoodTimeId: string | null = null): Experiment {
+  static add(title: string, hypothesis: string, type: ExperimentType, sourceGoodTimeId: string | null = null,
+    goalId: string | null = null, sourceIdeaId: string | null = null): Experiment {
     const exp: Experiment = {
       id: createId('exp'), title: title.trim(), hypothesis: hypothesis.trim(), type,
       status: 'planned', verdict: 'pending', learnings: '',
-      sourceGoodTimeId, promotedGoalId: null, createdAt: DateService.todayKey(),
+      sourceGoodTimeId, sourceIdeaId, promotedGoalId: null, goalId, createdAt: DateService.todayKey(),
     };
     StorageService.set(STORAGE_KEYS.EXPERIMENTS, [exp, ...this.getAll()]);
     return exp;
@@ -68,6 +70,7 @@ export class ExperimentService {
     if (!exp || exp.promotedGoalId) return null;
     const goal = GoalService.add(exp.title, 'growth', 'q4');
     this.update(id, { promotedGoalId: goal.id, status: 'done', verdict: 'love' });
+    ActionService.getAll().filter((action) => action.experimentId === id).forEach((action) => ActionService.update(action.id, { goalId: goal.id }));
     return goal.id;
   }
 }

@@ -5,14 +5,15 @@ import { isEnergyLevel } from './GoodTimeModel';
 import { NAV_TABS, type TabInfo } from './TabModel';
 
 /** @description 可跨重新整理保留的介面狀態，彈窗與一次性捲動目標不保存。 */
-export type AppMemory = Pick<UiState, 'tab' | 'goalStatusFilter' | 'goalCategoryFilter' | 'odysseyType'
+export type AppMemory = Pick<UiState, 'tab' | 'exploreSection' | 'goalStatusFilter' | 'goalCategoryFilter' | 'odysseyType'
   | 'calendarMonth' | 'selectedDate' | 'draftEnergy' | 'draftFlow' | 'showExperimentForm'
-  | 'experimentPreset' | 'drafts' | 'onboardingStep'>;
+  | 'experimentPreset' | 'drafts' | 'onboardingStep' | 'actionEntryMode' | 'actionEntryEnergy'>;
 
 /** @description 尚未送出的表單欄位；已即時保存的每日紀錄不重複存為草稿。 */
 export const DRAFT_FIELDS: readonly string[] = [
-  'gt-activity', 'goal-title', 'goal-cat', 'goal-stage', 'act-title', 'act-repeat',
-  'exp-title', 'exp-hyp', 'exp-type', 'ob-activity', 'ob-name',
+  'gt-activity', 'goal-title', 'goal-cat', 'goal-stage', 'act-title', 'act-reason', 'act-repeat',
+  'action-micro-step', 'action-feedback-note', 'act-goal', 'act-experiment',
+  'idea-title', 'idea-step', 'exp-title', 'exp-hyp', 'exp-type', 'ob-activity', 'ob-name',
 ];
 
 /** @description 記憶資料版本。 */
@@ -47,10 +48,12 @@ export function parseAppMemory(value: unknown): Partial<AppMemory> {
   if (!isRecord(value) || value['version'] !== APP_MEMORY_VERSION) return {};
   const memory: Partial<AppMemory> = {};
   const tab = value['tab'];
+  const exploreSection = value['exploreSection'];
   const status = value['goalStatusFilter'];
   const category = value['goalCategoryFilter'];
   const odyssey = value['odysseyType'];
   if (NAV_TABS.some((option: TabInfo): boolean => option.id === tab)) memory.tab = tab as AppMemory['tab'];
+  if (exploreSection === 'explore' || exploreSection === 'odyssey') memory.exploreSection = exploreSection;
   if (GOAL_STATUS_FILTERS.some((option: GoalFilterOption): boolean => option.id === status)) memory.goalStatusFilter = status as AppMemory['goalStatusFilter'];
   if (category === 'all' || DEFAULT_CATEGORIES.some((option: CategoryTag): boolean => option.id === category)) memory.goalCategoryFilter = category as string;
   if (odyssey === 'current' || odyssey === 'pivot' || odyssey === 'wild') memory.odysseyType = odyssey;
@@ -61,6 +64,8 @@ export function parseAppMemory(value: unknown): Partial<AppMemory> {
   if (typeof value['draftFlow'] === 'boolean') memory.draftFlow = value['draftFlow'];
   if (typeof value['showExperimentForm'] === 'boolean') memory.showExperimentForm = value['showExperimentForm'];
   if (typeof value['experimentPreset'] === 'string') memory.experimentPreset = value['experimentPreset'].slice(0, 200);
+  if (value['actionEntryMode'] === 'plan' || value['actionEntryMode'] === 'record') memory.actionEntryMode = value['actionEntryMode'];
+  if (value['actionEntryEnergy'] === null || isEnergyLevel(value['actionEntryEnergy'])) memory.actionEntryEnergy = value['actionEntryEnergy'];
   const step = value['onboardingStep'];
   if (typeof step === 'number' && Number.isInteger(step) && step >= 1 && step <= 4) memory.onboardingStep = step;
   const drafts = value['drafts'];

@@ -26,8 +26,11 @@ export interface Experiment {
   learnings: string;
   /** 來源好時光紀錄 ID */
   sourceGoodTimeId: string | null;
+  /** 來源待試點子 ID */
+  sourceIdeaId?: string | null;
   /** 晉升後的目標 ID */
   promotedGoalId: string | null;
+  goalId?: string | null;
   createdAt: string;
 }
 

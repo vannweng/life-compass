@@ -49,6 +49,16 @@ export class GoodTimeService {
     StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.getAll().filter((e) => e.id !== id));
   }
 
+  /** 同一天同一行動只保留一筆能量紀錄，修改回饋不重複計數。 */
+  static saveForAction(actionId: string, activity: string, energy: EnergyLevel, isFlow: boolean): void {
+    const entries = this.getAll();
+    const date = DateService.todayKey();
+    const existing = entries.find((entry) => entry.actionId === actionId && entry.date === date);
+    const entry: GoodTimeEntry = { id: existing?.id ?? createId('gt'), date,
+      time: existing?.time ?? DateService.nowTime(), actionId, activity, energy, isFlow };
+    StorageService.set(STORAGE_KEYS.GOOD_TIMES, [entry, ...entries.filter((item) => item.id !== entry.id)]);
+  }
+
   /**
    * @description 取得某日紀錄
    * @param date YYYY-MM-DD

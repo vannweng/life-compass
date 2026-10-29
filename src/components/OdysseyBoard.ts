@@ -6,6 +6,7 @@
 import type { AppContext, Handlers } from '../models/AppContextModel';
 import { ODYSSEY_TEMPLATES, ODYSSEY_YEAR_PROMPTS, type OdysseyPlan } from '../models/OdysseyModel';
 import { ReflectionService } from '../services/ReflectionService';
+import { IdeaService } from '../services/IdeaService';
 import { escapeHtml } from '../services/TextService';
 import { dataOf } from './Dom';
 
@@ -58,6 +59,7 @@ export class OdysseyBoard {
       <div class="odyssey-tabs">${tabs}</div>
       <p style="font-weight:700;margin-bottom:8px">${tpl.guide}</p>
       <input class="field" id="od-title" data-input="odyssey:title" placeholder="${tpl.placeholder}" value="${escapeHtml(plan.title)}" />
+      <button class="link-btn odyssey-save-idea" data-action="odyssey:idea">存成待試點子</button>
       ${years}${this.rating(plan, 'like', '這個人生我有多喜歡？')}${this.rating(plan, 'confidence', '我有多大信心做到？')}
     </section>`;
   }
@@ -85,6 +87,13 @@ export class OdysseyBoard {
           if (key !== 'like' && key !== 'confidence') return;
           ReflectionService.updateOdyssey(ctx.ui.odysseyType, { [key]: Number(dataOf(el, 'value')) });
           ctx.refresh();
+        },
+        'odyssey:idea': () => {
+          const title = ReflectionService.getOdyssey()[ctx.ui.odysseyType].title.trim();
+          if (!title) return ctx.toast('先替這種人生寫一個名稱');
+          IdeaService.add(title, 'odyssey');
+          ctx.setUi({ exploreSection: 'explore', scrollTarget: 'idea-inbox' });
+          ctx.toast('已放進待試點子');
         },
       },
       inputs,

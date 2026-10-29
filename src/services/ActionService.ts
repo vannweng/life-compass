@@ -35,10 +35,48 @@ export class ActionService {
    * @param goalId 所屬目標
    * @returns 新行動
    */
-  static add(title: string, repeat: ActionRepeat, goalId: string | null = null): Action {
-    const action: Action = { id: createId('act'), title: title.trim(), goalId, repeat, createdAt: DateService.todayKey(), archived: false };
+  static add(title: string, repeat: ActionRepeat, goalId: string | null = null, reason = '', experimentId: string | null = null): Action {
+    const action: Action = { id: createId('act'), title: title.trim(), reason: reason.trim(), goalId, experimentId, repeat, createdAt: DateService.todayKey(), archived: false };
     StorageService.set(STORAGE_KEYS.ACTIONS, [...this.getAll(), action]);
     return action;
+  }
+
+  /**
+   * @description 更新行動的理由或目前可開始的小步。
+   * @param id 行動 ID。
+   * @param patch 欲更新的欄位。
+   * @returns 無。
+   */
+  static update(id: string, patch: Partial<Pick<Action, 'reason' | 'microStep' | 'microStepDate' | 'goalId'>>): void {
+    StorageService.set(STORAGE_KEYS.ACTIONS, this.getAll().map((action) => (action.id === id ? { ...action, ...patch } : action)));
+  }
+
+  /**
+   * @description 取得一件行動。
+   * @param id 行動 ID。
+   * @returns 行動或 null。
+   */
+  static find(id: string): Action | null {
+    return this.getAll().find((action) => action.id === id) ?? null;
+  }
+
+  /** 將既有經驗連回小實驗，不複製完成與回饋紀錄。 */
+  static linkExperiment(id: string, experimentId: string): void {
+    StorageService.set(STORAGE_KEYS.ACTIONS, this.getAll().map((action) => action.id === id ? { ...action, experimentId } : action));
+  }
+
+  /** 今天的小步，舊版未指定日期的步驟仍可讀取。 */
+  static stepFor(id: string, date = DateService.todayKey()): string {
+    const action = this.find(id);
+    if (!action) return '';
+    return action.microStep && (!action.microStepDate || action.microStepDate === date) ? action.microStep : action.title;
+  }
+
+  /** 同一來源已有待辦時沿用，避免反覆點擊建立多份。 */
+  static pendingFor(source: 'goal' | 'experiment', id: string): Action | undefined {
+    return this.forDate(DateService.todayKey()).find((action) =>
+      (source === 'goal' ? action.goalId === id : action.experimentId === id)
+      && !this.isDone(action.id, DateService.todayKey()));
   }
 
   /**
@@ -69,7 +107,7 @@ export class ActionService {
   static toggle(id: string, date: string): void {
     const logs = this.getLogs();
     const exists = logs.some((l) => l.actionId === id && l.date === date);
-    const next = exists ? logs.filter((l) => !(l.actionId === id && l.date === date)) : [...logs, { actionId: id, date }];
+    const next = exists ? logs.filter((l) => !(l.actionId === id && l.date === date)) : [...logs, { actionId: id, date, step: this.stepFor(id, date) }];
     StorageService.set(STORAGE_KEYS.ACTION_LOGS, next);
   }
 

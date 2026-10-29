@@ -7,6 +7,7 @@ import type { GoalStatusFilter } from './GoalModel';
 import type { EnergyLevel } from './GoodTimeModel';
 import type { OdysseyType } from './OdysseyModel';
 import type { TabId } from './TabModel';
+import type { ActionBlocker, ActionDirection } from './ActionFeedbackModel';
 
 /** @description 可輸入的表單元素 */
 export type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
@@ -35,7 +36,11 @@ export interface Handlers {
  * @description 全域 UI 狀態，草稿與瀏覽選擇由 AppMemoryService 保存
  */
 export interface UiState {
+  /** 主要四分頁或由首頁進入的一生次頁 */
+  page: 'main' | 'life';
   tab: TabId;
+  /** 探索主功能中的兩種探索方式 */
+  exploreSection: 'explore' | 'odyssey';
   goalStatusFilter: GoalStatusFilter;
   goalCategoryFilter: string;
   odysseyType: OdysseyType;
@@ -50,6 +55,20 @@ export interface UiState {
   showExperimentForm: boolean;
   /** 新增實驗表單預填標題 */
   experimentPreset: string;
+  /** 正在確認第一步的待試點子 ID */
+  activeIdeaId: string | null;
+  /** 正在取得協助的行動 ID */
+  activeActionId: string | null;
+  /** 使用者為卡住狀態選擇的原因 */
+  actionBlocker: ActionBlocker | null;
+  /** 正在留下完成線索的行動 ID */
+  feedbackActionId: string | null;
+  /** 完成後暫時選擇的方向 */
+  actionFeedbackDirection: ActionDirection | null;
+  actionFeedbackEnergy: EnergyLevel | null;
+  actionFeedbackFlow: boolean;
+  actionEntryMode: 'plan' | 'record';
+  actionEntryEnergy: EnergyLevel | null;
   /** 尚未送出的輸入草稿（元素 ID → 文字），由組件於重繪時回填 */
   drafts: Record<string, string>;
   /** 渲染後要捲動到的元素 ID */

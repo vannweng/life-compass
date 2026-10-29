@@ -3,8 +3,6 @@
  * @module views/TodayView
  */
 
-import { DailyQuestionCard } from '../components/DailyQuestionCard';
-import { GoodTimeQuickLog } from '../components/GoodTimeQuickLog';
 import { MoodNoteCard } from '../components/MoodNoteCard';
 import { TimeStrip } from '../components/TimeStrip';
 import { TodayActions } from '../components/TodayActions';
@@ -26,10 +24,8 @@ export class TodayView {
     const date = DateService.todayKey();
     return `<div class="view" id="view-today">
       ${TimeStrip.render(profile)}
-      ${DailyQuestionCard.render(date)}
       ${MoodNoteCard.render(date)}
-      ${GoodTimeQuickLog.render(ctx)}
-      ${TodayActions.render(date)}
+      ${TodayActions.render(date, ctx)}
     </div>`;
   }
 
@@ -40,8 +36,9 @@ export class TodayView {
    */
   static handlers(ctx: AppContext): Handlers {
     return mergeHandlers(
-      DailyQuestionCard.handlers(ctx), MoodNoteCard.handlers(ctx),
-      GoodTimeQuickLog.handlers(ctx), TodayActions.handlers(ctx),
+      TimeStrip.handlers(ctx),
+      MoodNoteCard.handlers(ctx),
+      TodayActions.handlers(ctx),
     );
   }
 }

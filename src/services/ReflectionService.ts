@@ -29,6 +29,24 @@ export class ReflectionService {
     return map[`${type}:${periodKey}`] ?? { type, periodKey, answers: Array.from({ length: size }, () => ''), updatedAt: '' };
   }
 
+  /** 首次隨機選一題；換題排除當前題目，並保留每題原有回答。 */
+  static pickQuestion(type: ReviewType, periodKey: string, size: number, shuffle = false): number {
+    if (size < 1) return 0;
+    const review = this.getReview(type, periodKey, size);
+    const saved = review.questionIndex;
+    const valid = typeof saved === 'number' && Number.isInteger(saved) && saved >= 0 && saved < size;
+    const answered = review.answers.findIndex((answer, index) => index < size && answer.trim() !== '');
+    const current = valid ? saved : answered >= 0 ? answered : Math.floor(Math.random() * size);
+    const candidates = Array.from({ length: size }, (_, index) => index).filter((index) => index !== current);
+    const selected = shuffle && candidates.length ? candidates[Math.floor(Math.random() * candidates.length)] ?? current : current;
+    if (saved !== selected) {
+      const map = StorageService.get<ReviewMap>(STORAGE_KEYS.REVIEWS, {});
+      map[`${type}:${periodKey}`] = { ...review, questionIndex: selected };
+      StorageService.set(STORAGE_KEYS.REVIEWS, map);
+    }
+    return selected;
+  }
+
   /**
    * @description 儲存回顧中的單一答案
    * @param type 回顧類型

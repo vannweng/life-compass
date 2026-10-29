@@ -8,7 +8,7 @@ import { MOOD_OPTIONS, type MoodValue } from '../models/DailyEntryModel';
 import { DailyService } from '../services/DailyService';
 import { DateService } from '../services/DateService';
 import { escapeHtml } from '../services/TextService';
-import { dataOf } from './Dom';
+import { ICONS, dataOf, icon } from './Dom';
 
 /**
  * @description 判斷數值是否為心情值
@@ -20,7 +20,7 @@ function isMood(n: number): n is MoodValue {
 }
 
 /**
- * @description 心情與隨筆卡片
+ * @description 心情與每日問題隨筆卡片
  */
 export class MoodNoteCard {
   /**
@@ -30,17 +30,23 @@ export class MoodNoteCard {
    */
   static render(date: string): string {
     const entry = DailyService.get(date);
+    const question = DailyService.questionFor(date);
     const moods = MOOD_OPTIONS.map((m) => `
       <button class="mood-btn ${entry.mood === m.value ? 'is-active' : ''}" style="--c:${m.color}"
         data-action="mood:set" data-value="${m.value}" id="mood-${m.value}" aria-pressed="${entry.mood === m.value}">
         ${m.label}
       </button>`).join('');
     return `
-      <section class="card" id="mood-note">
+      <section class="card mood-reflection-card" id="mood-note">
         <div class="card__head"><h3>今天的心情</h3></div>
         <div class="mood-row" role="group" aria-label="今天的心情">${moods}</div>
-        <label class="field-label" for="daily-note">隨筆（可選）</label>
-        <textarea class="textarea" id="daily-note" data-input="daily:note" placeholder="寫下今天的想法…">${escapeHtml(entry.note)}</textarea>
+        <div class="mood-reflection-card__prompt">
+          <div class="card__head">
+            <p class="question-card__text">${escapeHtml(question.text)}</p>
+            <button class="link-btn" data-action="question:shuffle">${icon(ICONS.refresh, 14)}換一題</button>
+          </div>
+          <textarea class="textarea" id="daily-answer" data-input="daily:answer" aria-label="${escapeHtml(question.text)}" placeholder="一句話就好，不用寫很多…">${escapeHtml(entry.answer)}</textarea>
+        </div>
       </section>`;
   }
 
@@ -59,8 +65,17 @@ export class MoodNoteCard {
           DailyService.update(DateService.todayKey(), { mood: current === value ? null : value });
           ctx.refresh();
         },
+        'question:shuffle': () => {
+          DailyService.shuffleQuestion(DateService.todayKey());
+          ctx.refresh();
+        },
       },
-      inputs: { 'daily:note': (el) => { DailyService.update(DateService.todayKey(), { note: el.value }); } },
+      inputs: {
+        'daily:answer': (el) => {
+          const date = DateService.todayKey();
+          DailyService.update(date, { answer: el.value, questionId: DailyService.questionFor(date).id });
+        },
+      },
     };
   }
 }

@@ -44,7 +44,8 @@ export class GoalService {
    */
   static filtered(status: GoalStatusFilter, category: string): Goal[] {
     return this.getAll().filter((goal: Goal): boolean =>
-      (status === 'all' || goal.status === status) && (category === 'all' || goal.category === category));
+      (status === 'all' || (status === 'idea' ? goal.status !== 'done' : goal.status === status))
+      && (category === 'all' || goal.category === category));
   }
 
   /**

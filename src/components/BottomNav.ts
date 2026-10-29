@@ -46,7 +46,7 @@ export class BottomNav {
         'nav:go': (el) => {
           const tab = dataOf(el, 'tab');
           if (isTabId(tab)) {
-            ctx.setUi({ tab });
+            ctx.setUi({ page: 'main', tab });
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         },

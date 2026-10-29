@@ -19,7 +19,7 @@ export class TimeStrip {
   static render(profile: UserProfile): string {
     const s = LifeClockService.calculate(profile);
     return `
-      <section class="card time-strip" id="time-strip" data-action="profile:open" role="button" tabindex="0" aria-label="查看餘生時鐘">
+      <section class="card time-strip" id="time-strip" data-action="life:open" role="button" tabindex="0" aria-label="查看一生時間頁">
         <div class="time-strip__glow"></div>
         <p class="time-strip__day">今天是你人生的第 <b class="num">${s.lifeDayNumber.toLocaleString()}</b> 天</p>
         <div class="time-strip__future">
@@ -40,7 +40,7 @@ export class TimeStrip {
    * @param _ctx 應用上下文
    * @returns 處理器集合
    */
-  static handlers(_ctx: AppContext): Handlers {
-    return { actions: {}, inputs: {} };
+  static handlers(ctx: AppContext): Handlers {
+    return { actions: { 'life:open': () => ctx.setUi({ page: 'life', scrollTarget: 'life-page' }) }, inputs: {} };
   }
 }

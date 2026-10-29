@@ -14,6 +14,7 @@ import { escapeHtml } from '../services/TextService';
 import { ICONS, dataOf, icon } from './Dom';
 import { MoodTree } from './MoodTree';
 import { CalendarMoodPicker } from './CalendarMoodPicker';
+import { ActionHistory } from './ActionHistory';
 
 /**
  * @description 位移月份
@@ -39,7 +40,7 @@ export class HistoryCalendar {
     const e = DailyService.get(date);
     const mood = MOOD_OPTIONS.find((option: MoodOption): boolean => option.value === e.mood);
     const question = DailyService.questionFor(date);
-    const gts = GoodTimeService.byDate(date);
+    const gts = GoodTimeService.byDate(date).filter((entry) => !entry.actionId);
     if (!InsightService.isRecorded(date)) return `<div class="day-detail muted">${DateService.formatDisplay(date)}：沒有紀錄</div>`;
     return `<div class="day-detail"><b>${DateService.formatDisplay(date)}</b>
       ${mood || e.note ? `<p class="history-day-summary">
@@ -51,7 +52,7 @@ export class HistoryCalendar {
         <span class="history-energy-item__bullet" aria-hidden="true">·</span><time class="history-energy-item__time num">${g.time}</time>
         <span class="tag">${ENERGY_OPTIONS.find((option: EnergyOption): boolean => option.value === g.energy)?.label ?? '持平'}</span>
         <span class="history-energy-item__activity">${escapeHtml(g.activity)}</span>
-        ${g.isFlow ? '<span class="tag tag--love">心流</span>' : ''}</div>`).join('')}</div>` : ''}</div>`;
+        ${g.isFlow ? '<span class="tag tag--love">心流</span>' : ''}</div>`).join('')}</div>` : ''}${ActionHistory.render(date)}</div>`;
   }
 
   /**

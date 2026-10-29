@@ -27,17 +27,17 @@ export class LifeGrid {
   }
 
   /**
-   * @description 渲染最近 14 天心情趨勢
+   * @description 渲染最近 7 天心情趨勢
    * @returns HTML 字串
    */
   static renderMood(): string {
-    const bars = InsightService.moodSeries(14).map((d) => {
+    const bars = InsightService.moodSeries(7).map((d) => {
       const opt = MOOD_OPTIONS.find((m) => m.value === d.mood);
       const h = d.mood ? d.mood * 20 : 6;
       return `<span title="${d.date}" style="height:${h}%;${opt ? `background:${opt.color}` : ''}"></span>`;
     }).join('');
-    return `<section class="card" id="mood-trend">
-      <div class="card__head"><div><h3>最近 14 天心情</h3><p class="card__sub">本月已記錄 ${InsightService.recordedDaysInMonth()} 天</p></div></div>
-      <div class="mood-trend">${bars}</div></section>`;
+    return `<section class="card mood-summary" id="mood-trend">
+      <div class="mood-summary__copy"><h3>最近 7 天心情</h3><p class="card__sub">本月已記錄 ${InsightService.recordedDaysInMonth()} 天</p></div>
+      <div class="mood-trend" aria-label="最近 7 天心情圖表">${bars}</div></section>`;
   }
 }

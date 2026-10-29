@@ -11,6 +11,9 @@ import './styles/views-goals-review.css';
 import './styles/responsive.css';
 import './styles/goal-library.css';
 import './styles/history-calendar.css';
+import './styles/action-follow-through.css';
+import './styles/architecture.css';
+import './styles/today.css';
 import { App } from './App';
 
 const root = document.getElementById('app-root');

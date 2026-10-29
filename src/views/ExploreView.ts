@@ -3,10 +3,10 @@
  * @module views/ExploreView
  */
 
-import { EnergyInsight } from '../components/EnergyInsight';
-import { ExperimentList } from '../components/ExperimentList';
+import { ExplorationHub } from '../components/ExplorationHub';
 import { OdysseyBoard } from '../components/OdysseyBoard';
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
+import { dataOf } from '../components/Dom';
 
 /**
  * @description 探索分頁
@@ -18,10 +18,13 @@ export class ExploreView {
    * @returns HTML 字串
    */
   static render(ctx: AppContext): string {
+    const odyssey = ctx.ui.exploreSection === 'odyssey';
     return `<div class="view" id="view-explore">
-      ${EnergyInsight.render()}
-      ${ExperimentList.render(ctx)}
-      ${OdysseyBoard.render(ctx)}
+      <div class="explore-section-tabs" role="tablist" aria-label="探索方式">
+        <button class="${odyssey ? '' : 'is-active'}" role="tab" aria-selected="${!odyssey}" data-action="explore:section" data-section="explore">探索</button>
+        <button class="${odyssey ? 'is-active' : ''}" role="tab" aria-selected="${odyssey}" data-action="explore:section" data-section="odyssey">三種可能的人生</button>
+      </div>
+      ${odyssey ? OdysseyBoard.render(ctx) : ExplorationHub.render(ctx)}
     </div>`;
   }
 
@@ -31,6 +34,9 @@ export class ExploreView {
    * @returns 處理器集合
    */
   static handlers(ctx: AppContext): Handlers {
-    return mergeHandlers(EnergyInsight.handlers(ctx), ExperimentList.handlers(ctx), OdysseyBoard.handlers(ctx));
+    return mergeHandlers(ExplorationHub.handlers(ctx), OdysseyBoard.handlers(ctx), {
+      actions: { 'explore:section': (el) => ctx.setUi({ exploreSection: dataOf(el, 'section') === 'odyssey' ? 'odyssey' : 'explore' }) },
+      inputs: {},
+    });
   }
 }

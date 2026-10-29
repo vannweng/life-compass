@@ -14,6 +14,8 @@ export interface Review {
   periodKey: string;
   type: ReviewType;
   answers: string[];
+  /** 目前顯示的一題；其他題目的回答仍保留。 */
+  questionIndex?: number;
   updatedAt: string;
 }
 
