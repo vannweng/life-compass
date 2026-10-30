@@ -59,11 +59,11 @@ export const MAX_FOCUS_PER_MONTH = 3;
 
 /** @description 預設分類 */
 export const DEFAULT_CATEGORIES: readonly CategoryTag[] = [
-  { id: 'experience', name: '體驗', color: '#22D3EE' },
-  { id: 'growth', name: '成長', color: '#818CF8' },
-  { id: 'career', name: '事業', color: '#60A5FA' },
-  { id: 'relationship', name: '關係', color: '#C084FC' },
-  { id: 'health', name: '身心', color: '#34D399' },
+  { id: 'experience', name: '體驗', color: '#B7F24A' },
+  { id: 'growth', name: '成長', color: '#D7A85C' },
+  { id: 'career', name: '事業', color: '#8FB8A0' },
+  { id: 'relationship', name: '關係', color: '#D88C96' },
+  { id: 'health', name: '身心', color: '#A7ACA3' },
 ];
 
 /** @description 人生階段對照 */
@@ -71,7 +71,7 @@ export const STAGE_MAP: Record<LifeStage, StageInfo> = {
   q1: { id: 'q1', title: '體能期', subtitle: '高體能／冒險（20–35）', color: '#F87171' },
   q2: { id: 'q2', title: '累積期', subtitle: '精力與資源累積（30–50）', color: '#FB923C' },
   q3: { id: 'q3', title: '熟齡期', subtitle: '沉澱與品質（50–70）', color: '#FACC15' },
-  q4: { id: 'q4', title: '隨時', subtitle: '沒有年齡門檻', color: '#F472B6' },
+  q4: { id: 'q4', title: '隨時', subtitle: '沒有年齡門檻', color: '#A7ACA3' },
 };
 
 /** @description 狀態中文標籤 */

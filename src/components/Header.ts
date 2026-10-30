@@ -1,5 +1,5 @@
 /**
- * @description 頂部問候列組件
+ * @description 品牌與今日狀態列組件
  * @module components/Header
  */
 
@@ -11,7 +11,7 @@ import { escapeHtml } from '../services/TextService';
 import { ICONS, icon } from './Dom';
 
 /**
- * @description 頂部問候列
+ * @description 品牌與今日狀態列
  */
 export class Header {
   /**
@@ -37,8 +37,8 @@ export class Header {
     return `
       <header class="app-header">
         <div class="app-header__text">
-          <p class="app-header__date">${DateService.formatDisplay(DateService.todayKey())}</p>
-          <h1 class="app-header__title">${this.greeting(new Date().getHours())}，${escapeHtml(profile.name)}</h1>
+          <h1 class="app-header__title">Life Compass</h1>
+          <p class="app-header__date">${this.greeting(new Date().getHours())}，${escapeHtml(profile.name)} · ${DateService.formatDisplay(DateService.todayKey())}</p>
         </div>
         <div class="app-header__right">
           <span class="streak-chip" title="連續記錄天數">${icon(ICONS.flame, 14)}<b>${streak}</b> 天</span>

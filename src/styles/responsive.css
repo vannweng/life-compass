@@ -1,4 +1,4 @@
-/* 手機與觸控共用：保持內容可縮放，主要操作區約 40px。 */
+/* 手機與觸控共用：內容留出 16px 邊界，觸控目標至少 44px。 */
 html { scroll-padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px); }
 body, #app-root { min-height: 100dvh; }
 #app-root {
@@ -27,8 +27,7 @@ main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
 
 /* 平板窄視窗先放寬單欄，直向與橫向皆依可用寬度排版。 */
 @media (min-width: 600px) {
-  :root { --max-w: 760px; }
-  :root { --page-gutter: var(--space-4); }
+  :root { --max-w: 760px; --page-gutter: 24px; }
   .modal-overlay { align-items: center; padding: var(--space-default); }
   .modal { max-width: 560px; border-radius: var(--radius-lg); }
   .bottom-nav__item { flex-direction: row; gap: var(--gap-content); font-size: var(--text-body); }
@@ -40,6 +39,11 @@ main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
   .view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   #time-strip, #energy-insight, #odyssey-board, #life-clock-hero,
   #goal-library, #mood-trend, #weekly-next-step, #history-calendar, #life-grid { grid-column: 1 / -1; }
+}
+
+@media (max-width: 599px) {
+  :root { --control-height: 44px; --nav-h: 68px; }
+  .card { padding: 16px; }
 }
 
 /* 平板以上：指定內容成對並排，底部四個主功能貼齊可用視窗。 */
@@ -57,4 +61,15 @@ main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .bottom-nav { background: var(--bg-elev); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .modal { background: var(--bg-elev); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+@media (prefers-contrast: more) {
+  .card, .bottom-nav, .modal { outline: 1px solid var(--text); outline-offset: -1px; }
+  .field, .textarea { border-color: var(--text); }
+  .muted, .card__sub, .row__meta { color: var(--text); }
 }

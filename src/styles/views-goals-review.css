@@ -1,14 +1,13 @@
 /* 目標 */
-.clock-hero { background: linear-gradient(140deg, #2a2418, #1b241c 55%, #1f3320); }
-[data-theme='light'] .clock-hero { background: linear-gradient(140deg, #fdf0dd, #f3f9e8 60%, #e6f6cf); }
-.clock-hero__headline { display: flex; align-items: baseline; gap: 5px; font-size: 13px; }
-.clock-hero__headline .num { color: var(--warm); font-size: 30px; font-weight: 800; line-height: 1; }
-.clock-hero__msg { margin-top: 4px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+.clock-hero { background: var(--card); }
+.clock-hero__headline { display: flex; align-items: baseline; gap: var(--gap-icon); font-size: var(--text-body); }
+.clock-hero__headline .num { color: var(--warm); font-size: 30px; font-weight: var(--weight-strong); line-height: 1; }
+.clock-hero__msg { margin-top: var(--space-2); font-size: var(--text-caption); line-height: var(--leading-body); color: var(--muted); }
 .clock-hero__msg b { color: var(--text); }
-.clock-hero__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 7px; }
-.stat { background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: 5px 4px; text-align: center; }
+.clock-hero__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-top: var(--space-3); }
+.stat { background: var(--card-hi); border-radius: var(--radius-md); padding: var(--space-3) var(--space-2); text-align: center; }
 .stat b { display: block; font-size: 17px; line-height: 1.2; font-family: var(--font-num); }
-.stat span { font-size: 10px; color: var(--muted); }
+.stat span { font-size: var(--text-caption); color: var(--muted); }
 
 .focus-slot { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: var(--radius-md); background: var(--card-hi); margin-bottom: 4px; }
 .focus-slot--empty { border: 2px dashed var(--line); background: transparent; color: var(--muted); justify-content: center; font-size: 13px; }
@@ -16,22 +15,22 @@
 .goal-add { display: flex; flex-direction: column; gap: 6px; }
 .goal-add__row { display: flex; gap: 6px; }
 .goal-add__row > * { flex: 1; min-width: 0; }
-.cat-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.cat-pill { display: inline-flex; align-items: center; gap: 5px; font-size: var(--text-caption); color: var(--muted); }
 .goal-actions { display: flex; gap: 4px; }
-.mini-btn { width: var(--control-height); height: var(--control-height); border-radius: var(--radius-md); display: grid; place-items: center; background: var(--card-hi); color: var(--muted); transition: all 0.2s; }
+.mini-btn { width: var(--control-height); height: var(--control-height); border-radius: var(--radius); display: grid; place-items: center; background: var(--card-hi); color: var(--muted); transition: transform 100ms var(--ease-press), color 0.2s, background-color 0.2s; }
 .mini-btn:hover { color: var(--text); }
 .mini-btn.is-on { background: var(--warm-soft); color: var(--warm); }
 
 /* 回顧 */
 .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
-.day-detail { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 14px; }
+.day-detail { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--rule); font-size: var(--text-body); }
 .day-detail p { margin: 2px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* 每列三年的月份，將區塊高度壓縮至原本約一半，保留文字可讀性。 */
 .life-grid { display: grid; grid-template-columns: repeat(36, minmax(0, 1fr)); gap: 1px; }
 .life-grid i { aspect-ratio: 1; border-radius: 50%; background: var(--warm); opacity: 0.85; }
 .life-grid i.lived { background: var(--line); opacity: 0.45; }
-.life-grid i.now { background: var(--accent); opacity: 1; box-shadow: 0 0 4px var(--accent); animation: pulse 1.6s infinite; }
+.life-grid i.now { background: var(--accent); opacity: 1; animation: pulse 1.6s infinite; }
 @keyframes pulse { 50% { transform: scale(1.2); } }
 
 .mood-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; }
@@ -42,7 +41,7 @@
 /* 個人中心 / 引導 */
 .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--card-hi); padding: 4px; border-radius: var(--radius-md); }
 .seg button { padding: 8px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; color: var(--muted); }
-.seg button.is-active { background: var(--accent); color: var(--accent-ink); }
+.seg button.is-active { background: var(--text); color: var(--bg); }
 .ob-dots { display: flex; gap: 4px; justify-content: center; margin-bottom: 10px; }
 .ob-dots i { width: 22px; height: 4px; border-radius: var(--radius); background: var(--line); }
 .ob-dots i.is-on { background: var(--accent); }

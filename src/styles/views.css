@@ -1,16 +1,16 @@
-.question-card { background: linear-gradient(160deg, var(--warm-soft), transparent 70%), var(--card); }
+.question-card { background: var(--card); }
 .question-card .card__head { align-items: flex-start; }
 .question-card__text { flex: 1; font-size: var(--text-body); font-weight: var(--weight-medium); line-height: var(--leading-body); }
 
 .mood-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap-control); }
 .mood-btn {
   display: flex; align-items: center; justify-content: center; padding: var(--space-2) 0; border-radius: var(--radius-md);
-  background: var(--card-hi); border: 2px solid transparent; font-size: var(--text-caption); font-weight: var(--weight-medium); color: var(--muted); transition: all 0.2s var(--ease);
+  background: var(--card-hi); border: 2px solid transparent; font-size: var(--text-caption); font-weight: var(--weight-medium); color: var(--muted); transition: transform 100ms var(--ease-press), color 0.2s, background-color 0.2s, border-color 0.2s;
 }
 .mood-btn.is-active { color: var(--text); border-color: var(--c); background: color-mix(in srgb, var(--c) 18%, var(--card)); }
 
 .energy-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap-control); margin: var(--space-2) 0; }
-.energy-btn { padding: var(--space-2) 0; border-radius: var(--radius-md); font-size: 11px; font-weight: 700; background: var(--card-hi); color: var(--muted); border: 2px solid transparent; transition: all 0.2s var(--ease); }
+.energy-btn { padding: var(--space-2) 0; border-radius: var(--radius-md); font-size: var(--text-caption); font-weight: var(--weight-medium); background: var(--card-hi); color: var(--muted); border: 2px solid transparent; transition: transform 100ms var(--ease-press), color 0.2s, background-color 0.2s, border-color 0.2s; }
 .energy-btn.is-active { border-color: var(--c); color: var(--text); background: color-mix(in srgb, var(--c) 18%, var(--card)); }
 .gt-activity-label-row { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-content); }
 .gt-activity-label-row .field-label, .gt-activity-label-row .flow-toggle { margin: 0; }
@@ -22,9 +22,9 @@
 
 .gt-list { margin-top: var(--space-default); }
 .gt-item { display: flex; gap: var(--gap-control); align-items: center; padding: 0; font-size: var(--text-body); }
-.gt-item__time { font-size: 11px; color: var(--muted); width: 40px; }
-.gt-item__flow { font-size: 10px; background: var(--accent-soft); color: var(--accent); padding: 2px 8px; border-radius: var(--radius); font-weight: 800; }
-.action-repeat-tag { flex: none; padding: var(--space-2) var(--space-default); border-radius: var(--radius); background: var(--accent-soft); color: var(--accent); font-size: 11px; font-weight: 700; }
+.gt-item__time { font-size: var(--text-caption); color: var(--muted); width: 40px; }
+.gt-item__flow { font-size: var(--text-caption); background: var(--accent-soft); color: var(--accent); padding: 2px 8px; border-radius: var(--radius); font-weight: var(--weight-medium); }
+.action-repeat-tag { flex: none; padding: var(--space-2) var(--space-default); border-radius: var(--radius); background: var(--accent-soft); color: var(--accent); font-size: var(--text-caption); font-weight: var(--weight-medium); }
 
 /* 探索 */
 .insight-item { display: flex; align-items: center; gap: var(--gap-content); padding: var(--space-2) 0; }
@@ -38,7 +38,7 @@
 .rating { display: flex; gap: var(--gap-control); }
 .rating .btn { width: var(--control-height); padding-inline: 0; }
 
-.exp-card { padding: var(--space-default) 0; border-bottom: 1px solid var(--line); }
+.exp-card { padding: var(--space-default) 0; border-bottom: 1px solid var(--rule); }
 .experiment-form { margin: var(--space-default) 0 var(--space-6); padding: var(--surface-padding); border-radius: var(--radius-lg); background: var(--card-hi); }
 .exp-card:last-child { border-bottom: none; }
 .exp-card__controls { display: flex; align-items: center; gap: var(--gap-control); margin-top: var(--space-default); flex-wrap: wrap; }
@@ -47,5 +47,5 @@
 .exp-card__actions { flex: none; margin-left: auto; }
 .exp-card__promote { padding-inline: var(--space-default); white-space: nowrap; }
 .bare-delete-btn { width: 40px; padding: 0; border: 0; background: transparent; }
-.tag { font-size: 11px; font-weight: 700; padding: var(--space-2) var(--space-default); border-radius: var(--radius); background: var(--card-hi); color: var(--muted); }
+.tag { font-size: var(--text-caption); font-weight: var(--weight-medium); padding: var(--space-2) var(--space-default); border-radius: var(--radius); background: var(--card-hi); color: var(--muted); }
 .tag--love { background: var(--accent-soft); color: var(--accent); }

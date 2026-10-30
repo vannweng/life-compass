@@ -30,7 +30,7 @@ export class IdeaInbox {
     </div>`;
     }).join('');
     return `<div class="exploration-block exploration-ideas" id="idea-inbox" tabindex="-1">
-      <div class="exploration-block__head"><p class="eyebrow">先放著的點子</p>${ideas.length ? `<span class="tag">${ideas.length}</span>` : ''}</div>
+      <div class="exploration-block__head"><p class="context-label">先放著的點子</p>${ideas.length ? `<span class="tag">${ideas.length}</span>` : ''}</div>
       ${rows || '<p class="exploration-empty">有新的好奇時，先寫名稱就好。</p>'}
     </div>`;
   }

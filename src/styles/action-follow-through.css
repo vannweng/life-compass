@@ -2,11 +2,11 @@
 .weekly-next-step__actions { display: flex; gap: var(--gap-control); flex-wrap: wrap; margin-top: var(--space-default); }
 .weekly-next-step__proposal { font-size: 14px; font-weight: 700; line-height: 1.55; }
 .weekly-next-step__evidence, .weekly-next-step__response { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
-.weekly-next-step__response { color: var(--accent); font-weight: 700; }
+.weekly-next-step__response { color: var(--text); font-weight: var(--weight-medium); }
 
 .source-evidence { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 4px; }
 .weekly-step-preview { padding: 10px; margin-top: 8px; background: var(--card-hi); border-radius: var(--radius-md); font-size: 14px; }
-.weekly-running { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.weekly-running { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); }
 .weekly-experiment { display: flex; align-items: center; gap: var(--gap-content); padding: var(--space-default) 0; font-size: var(--text-caption); }
 .weekly-experiment > .btn { flex: none; }
 .history-action { margin-top: 8px; font-size: 13px; }

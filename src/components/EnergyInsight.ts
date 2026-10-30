@@ -26,13 +26,13 @@ export class EnergyInsight {
     const count = GoodTimeService.recent(WINDOW_DAYS).length;
     const history = `<button class="link-btn" data-action="insight:history">查看紀錄${icon(ICONS.arrow, 14)}</button>`;
     if (count < MIN_ENTRIES) {
-      return `<div class="exploration-block exploration-signals"><div class="exploration-block__head"><p class="eyebrow">最近線索</p>${history}</div>
+      return `<div class="exploration-block exploration-signals"><div class="exploration-block__head"><p class="context-label">最近線索</p>${history}</div>
         <div class="exploration-signal-empty"><span>再記 ${MIN_ENTRIES - count} 筆，就能看出能量規律</span>
           <button class="link-btn" data-action="insight:record">到今天記錄</button></div></div>`;
     }
     const up = InsightService.topEnergizers(WINDOW_DAYS)[0];
     const down = InsightService.topDrainers(WINDOW_DAYS)[0];
-    return `<div class="exploration-block exploration-signals"><div class="exploration-block__head"><p class="eyebrow">最近線索</p>${history}</div>
+    return `<div class="exploration-block exploration-signals"><div class="exploration-block__head"><p class="context-label">最近線索</p>${history}</div>
       <div class="exploration-signal-list">
         ${up ? `<div class="exploration-signal"><span class="signal-mark signal-mark--up">＋</span><div class="row__main"><b>${escapeHtml(up.activity)}</b><span>做完較有能量 · ${up.count} 次</span></div><button class="link-btn" data-action="insight:experiment" data-id="${up.latestId}">再試一次</button></div>` : ''}
         ${down ? `<div class="exploration-signal"><span class="signal-mark signal-mark--down">−</span><div class="row__main"><b>${escapeHtml(down.activity)}</b><span>這幾次做完較疲憊 · ${down.count} 次</span></div></div>` : ''}
@@ -73,8 +73,8 @@ export class EnergyInsight {
     const down = InsightService.topDrainers(WINDOW_DAYS).map((a, i) => this.item(a, i + 1, true)).join('');
     return `<section class="card" id="energy-insight">
       <div class="card__head"><div><h3>你的能量地圖</h3><p class="card__sub">最近 ${WINDOW_DAYS} 天，共 ${count} 筆紀錄</p></div>${historyLink}</div>
-      <p class="eyebrow">讓你充電的事</p>${up || '<div class="empty">還沒有明顯讓你充電的事</div>'}
-      ${down ? `<p class="eyebrow" style="margin-top:10px">讓你耗電的事</p>${down}` : ''}
+      <p class="context-label">讓你充電的事</p>${up || '<div class="empty">還沒有明顯讓你充電的事</div>'}
+      ${down ? `<p class="context-label" style="margin-top:10px">讓你耗電的事</p>${down}` : ''}
     </section>`;
   }
 

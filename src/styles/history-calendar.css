@@ -1,6 +1,6 @@
 /* 日期無底色，以小樹及文字呈現有內容的日子。 */
 .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
-.cal-dow { padding: 2px 0; font-size: 11px; color: var(--muted); text-align: center; }
+.cal-dow { padding: 2px 0; font-size: var(--text-caption); color: var(--muted); text-align: center; }
 .cal-day {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   min-width: 0; min-height: 62px; padding: 2px 0;
@@ -13,7 +13,7 @@
 .cal-day.is-future:not(.is-rec):not(.is-sel) .cal-day__number { opacity: 0.4; }
 .cal-day:hover .cal-day__number { color: var(--text); }
 .cal-day.is-blank { pointer-events: none; }
-.cal-hint { margin-top: 4px; font-size: 11px; color: var(--muted); }
+.cal-hint { margin-top: 4px; font-size: var(--text-caption); color: var(--muted); }
 .history-day-summary { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .history-mood { color: var(--mood-color); font-weight: 700; }
 .history-answer { margin: 4px 0; }

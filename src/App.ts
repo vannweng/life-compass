@@ -48,17 +48,18 @@ export class App {
     this.root = root;
     const profile = ProfileService.get();
     const memory = AppMemoryService.load();
+    const preview = new URLSearchParams(window.location.search).has('preview');
     const ui: UiState = {
       page: 'main', tab: 'today', exploreSection: 'explore', goalStatusFilter: 'all', goalCategoryFilter: 'all', odysseyType: 'current',
       calendarMonth: DateService.monthKey(), selectedDate: DateService.todayKey(),
-      showProfile: false, onboardingStep: profile.onboardingCompleted ? null : 1,
+      showProfile: false, onboardingStep: preview || profile.onboardingCompleted ? null : 1,
       draftEnergy: 0, draftFlow: false, showExperimentForm: false, experimentPreset: '',
       activeIdeaId: null, activeActionId: null, actionBlocker: null, feedbackActionId: null, actionFeedbackDirection: null,
       actionFeedbackEnergy: null, actionFeedbackFlow: false, actionEntryMode: 'plan', actionEntryEnergy: null,
       drafts: {}, scrollTarget: null,
       ...memory,
     };
-    ui.onboardingStep = profile.onboardingCompleted ? null : memory.onboardingStep ?? 1;
+    ui.onboardingStep = preview || profile.onboardingCompleted ? null : memory.onboardingStep ?? 1;
     this.ctx = {
       ui,
       setUi: (patch) => { Object.assign(this.ctx.ui, patch); this.render(); },

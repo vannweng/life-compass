@@ -11,3 +11,4 @@ product_plan.md
 *.log
 .env.local
 .env.*.local
+.taste-skill/

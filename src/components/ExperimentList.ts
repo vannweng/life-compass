@@ -74,7 +74,7 @@ export class ExperimentList {
     const active = experiments.filter((experiment) => experiment.status !== 'done');
     const done = experiments.filter((experiment) => experiment.status === 'done');
     return `<div class="exploration-block exploration-experiments" id="experiment-list">
-      <div class="exploration-block__head"><p class="eyebrow">正在試的事</p>${active.length ? `<span class="tag">${active.length}</span>` : ''}</div>
+      <div class="exploration-block__head"><p class="context-label">正在試的事</p>${active.length ? `<span class="tag">${active.length}</span>` : ''}</div>
       ${active.map((experiment) => this.card(experiment)).join('') || '<p class="exploration-empty">從一個點子開始，做一小步後會出現在這裡。</p>'}
       ${done.length ? `<details class="exploration-archive"><summary>已結束的實驗（${done.length}）</summary>${done.map((experiment) => this.card(experiment)).join('')}</details>` : ''}
       <button class="link-btn exploration-review-link" data-action="source:review">到每週回顧選下一步${icon(ICONS.arrow, 14)}</button>

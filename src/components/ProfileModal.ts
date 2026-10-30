@@ -29,7 +29,7 @@ export class ProfileModal {
     const themes = THEMES.map((t) => `<button class="${profile.theme === t.id ? 'is-active' : ''}" data-action="profile:theme" data-id="${t.id}">${t.label}</button>`).join('');
     return `<div class="modal-overlay" id="profile-modal"><div class="modal" role="dialog" aria-label="個人中心">
       <div class="modal__head"><h2>個人中心</h2><button class="icon-btn icon-btn--plain" data-action="profile:close" aria-label="關閉">${icon(ICONS.close)}</button></div>
-      <div class="card" style="margin-bottom:12px"><p class="eyebrow">餘生時鐘</p>
+      <div class="card" style="margin-bottom:12px"><p class="context-label">餘生時鐘</p>
         <p class="num" style="font-size:30px;font-weight:800;color:var(--warm)" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</p>
         <p class="muted" style="font-size:13px">秒 ≈ ${s.daysLeft.toLocaleString()} 天 ≈ ${s.summersLeft} 個夏天</p></div>
       <label class="field-label" for="pf-name">暱稱</label>

@@ -21,7 +21,7 @@ export class WeeklyNextStep {
         <div class="weekly-next-step__actions"><button class="btn btn--primary" data-action="weekly:accept">試這一步</button><button class="btn btn--ghost" data-action="weekly:reject">不符合，先保留</button></div>`
         : response ? `<p class="weekly-next-step__response">${response.response === 'confirm' ? '已帶到今天，做完的感受會自動回到小實驗。' : '已保留你的不同看法，先收集新的線索。'}</p>`
         : '<p class="card__sub">做完一小步，選個方向或留一句觀察，這裡就能提出有依據的建議。</p>'}
-      ${running.length ? `<div class="weekly-running"><p class="eyebrow">正在試的事</p>${running.map((experiment) => `<div class="weekly-experiment" data-key="${experiment.id}"><div class="row__main"><b>${escapeHtml(experiment.title)}</b>${ActionSources.evidence('experiment', experiment.id) || '<p class="card__sub">還沒留下感受，做一小步就好。</p>'}</div><button class="btn btn--primary" data-action="source:experiment" data-id="${experiment.id}">今天試一步</button></div>`).join('')}</div>` : ''}
+      ${running.length ? `<div class="weekly-running"><p class="context-label">正在試的事</p>${running.map((experiment) => `<div class="weekly-experiment" data-key="${experiment.id}"><div class="row__main"><b>${escapeHtml(experiment.title)}</b>${ActionSources.evidence('experiment', experiment.id) || '<p class="card__sub">還沒留下感受，做一小步就好。</p>'}</div><button class="btn btn--primary" data-action="source:experiment" data-id="${experiment.id}">今天試一步</button></div>`).join('')}</div>` : ''}
     </section>`;
   }
 

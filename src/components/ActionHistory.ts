@@ -17,7 +17,7 @@ export class ActionHistory {
       const goal = goals.find((g) => g.id === action.goalId);
       const energy = ENERGY_OPTIONS.find((e) => e.value === feedback?.energy);
       const clue = [energy?.label, feedback?.direction ? ACTION_DIRECTION_LABELS[feedback.direction] : '', feedback?.isFlow ? '心流' : '', feedback?.note].filter(Boolean).join(' · ');
-      return `<div class="history-action"><div>✓ ${escapeHtml(log.step || feedback?.step || ActionService.stepFor(action.id, date))}</div>${goal ? `<p class="card__sub">清單 · ${escapeHtml(goal.title)}</p>` : ''}${clue ? `<p class="action-clue">${escapeHtml(clue)}</p>` : ''}</div>`;
+      return `<div class="history-action"><div><span class="history-action__status">完成</span> ${escapeHtml(log.step || feedback?.step || ActionService.stepFor(action.id, date))}</div>${goal ? `<p class="card__sub">清單 · ${escapeHtml(goal.title)}</p>` : ''}${clue ? `<p class="action-clue">${escapeHtml(clue)}</p>` : ''}</div>`;
     }).join('');
   }
 }
