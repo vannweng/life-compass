@@ -15,8 +15,9 @@
 .mood-reflection-card .textarea { display: block; }
 
 .action-composer { display: grid; gap: var(--gap-content); padding-bottom: var(--space-default); border-bottom: 1px solid var(--rule); }
-.action-entry-line, .action-entry-tabs { display: flex; gap: var(--gap-control); }
-.action-entry-tabs { flex-wrap: wrap; }
+.action-entry-line { display: flex; gap: var(--gap-control); }
+.action-entry-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-control); }
+.action-entry-tabs .btn { width: 100%; min-width: 0; }
 .action-entry-line { align-items: stretch; }
 .action-entry-line .field { flex: 1; min-width: 0; }
 .action-entry-line .btn { flex: none; }

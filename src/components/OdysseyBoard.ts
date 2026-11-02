@@ -55,7 +55,7 @@ export class OdysseyBoard {
       <label class="field-label" for="od-${k}">${ODYSSEY_YEAR_PROMPTS[k]}</label>
       <textarea class="textarea" id="od-${k}" style="min-height:64px" data-input="odyssey:${k}">${escapeHtml(plan[k])}</textarea>`).join('');
     return `<section class="card" id="odyssey-board">
-      <div class="card__head"><div><h3>三種可能的人生</h3><p class="card__sub">不用選一個，先想像看看</p></div></div>
+      <div class="card__head"><h3>三種人生</h3></div>
       <div class="odyssey-tabs">${tabs}</div>
       <p style="font-weight:700;margin-bottom:8px">${tpl.guide}</p>
       <input class="field" id="od-title" data-input="odyssey:title" placeholder="${tpl.placeholder}" value="${escapeHtml(plan.title)}" />

@@ -9,7 +9,7 @@ export class ExplorationHub {
   /** @description 渲染探索主卡。 @param ctx 應用上下文 @returns HTML 字串 */
   static render(ctx: AppContext): string {
     return `<section class="card exploration-hub" id="exploration-hub" tabindex="-1">
-      <div class="card__head"><div><h3>探索</h3><p class="card__sub">從日常發現，找一件想試的事</p></div></div>
+      <div class="card__head"><h3>探索自己</h3></div>
       ${EnergyInsight.renderSummary()}
       ${IdeaInbox.renderComposer()}
       ${ExperimentList.renderContent()}

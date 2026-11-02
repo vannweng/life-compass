@@ -41,9 +41,9 @@ export class TodayActions {
     const completed = actions.filter((a) => ActionService.isDone(a.id, date));
     const legacy = GoodTimeService.byDate(date).filter((entry) => !entry.actionId);
     return `<section class="card" id="today-actions" tabindex="-1">
-      <div class="card__head"><div><h3>今天的行動</h3><p class="card__sub">${completed.length ? `已走 ${completed.length} 小步` : '選 2–3 件在意的小事就好'}${pending.length ? ` · ${pending.length} 件待做` : ''}</p></div></div>
+      <div class="card__head"><div><h3>今天的行動</h3>${completed.length || pending.length ? `<p class="card__sub">${[completed.length ? `已完成 ${completed.length} 件` : '', pending.length ? `待做 ${pending.length} 件` : ''].filter(Boolean).join(' · ')}</p>` : ''}</div></div>
       ${ActionComposer.render(ctx)}
-      <div class="action-pending">${pending.map((a) => this.row(a, date, ctx)).join('') || '<p class="action-empty">還有想做的事，隨時加一小步。</p>'}</div>
+      <div class="action-pending">${pending.map((a) => this.row(a, date, ctx)).join('')}</div>
       ${completed.length || legacy.length ? `<div class="action-completed"><p class="context-label">今天已做</p>
         ${completed.map((a) => this.row(a, date, ctx)).join('')}
         ${legacy.map((entry) => `<div class="row legacy-record" data-key="${entry.id}"><span class="row__meta num">${entry.time}</span><div class="row__main">${escapeHtml(entry.activity)}<div class="action-clue">${ENERGY_OPTIONS.find((e) => e.value === entry.energy)?.label ?? ''}${entry.isFlow ? ' · 心流' : ''}</div></div><button class="link-btn" data-action="act:again" data-id="${entry.id}">再做一次</button></div>`).join('')}</div>` : ''}

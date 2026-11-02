@@ -33,7 +33,7 @@ export class GoalLibrary {
           <button class="btn btn--primary" id="goal-add-btn" data-action="goal:add">${icon(ICONS.plus, 16)}新增</button></div>
         </div>
         ${GoalFilters.render(sf, cf)}
-        <div class="goal-list">${rows || '<div class="empty"><b>目前沒有符合篩選的項目</b>可以切換狀態或分類，或新增一件想做的事</div>'}</div>
+        <div class="goal-list">${rows || '<div class="empty">目前沒有符合篩選的項目</div>'}</div>
       </section>`;
   }
 
