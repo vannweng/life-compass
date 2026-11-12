@@ -14,6 +14,7 @@ import './styles/history-calendar.css';
 import './styles/action-follow-through.css';
 import './styles/architecture.css';
 import './styles/today.css';
+import './styles/action-board.css';
 import { App } from './App';
 
 const root = document.getElementById('app-root');

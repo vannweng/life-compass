@@ -36,14 +36,13 @@ export class DailyService {
    * @description 更新某日紀錄
    * @param date YYYY-MM-DD
    * @param patch 欲更新欄位
-   * @returns 更新後紀錄
+   * @returns 更新後紀錄；寫入失敗時回傳 null
    */
-  static update(date: string, patch: Partial<Omit<DailyEntry, 'date'>>): DailyEntry {
+  static update(date: string, patch: Partial<Omit<DailyEntry, 'date'>>): DailyEntry | null {
     const all = this.getAll();
     const next: DailyEntry = { ...(all[date] ?? createEmptyEntry(date)), ...patch, date };
     all[date] = next;
-    StorageService.set(STORAGE_KEYS.DAILY_ENTRIES, all);
-    return next;
+    return StorageService.set(STORAGE_KEYS.DAILY_ENTRIES, all) ? next : null;
   }
 
   /**
@@ -56,8 +55,7 @@ export class DailyService {
     const option = MOOD_OPTIONS.find((m): boolean => m.value === value);
     if (!option || !/^\d{4}-\d{2}-\d{2}$/.test(date)
       || DateService.toKey(DateService.fromKey(date)) !== date || date > DateService.todayKey()) return false;
-    this.update(date, { mood: option.value });
-    return true;
+    return this.update(date, { mood: option.value }) !== null;
   }
 
   /**
@@ -85,13 +83,12 @@ export class DailyService {
   /**
    * @description 換下一題並記錄
    * @param date YYYY-MM-DD
-   * @returns 新問題
+   * @returns 新問題；寫入失敗時回傳 null
    */
-  static shuffleQuestion(date: string): DailyQuestion {
+  static shuffleQuestion(date: string): DailyQuestion | null {
     const current = this.questionFor(date);
     const idx = DAILY_QUESTIONS.findIndex((q) => q.id === current.id);
     const next = DAILY_QUESTIONS[(idx + 1) % DAILY_QUESTIONS.length] ?? current;
-    this.update(date, { questionId: next.id, answer: '' });
-    return next;
+    return this.update(date, { questionId: next.id, answer: '' }) ? next : null;
   }
 }

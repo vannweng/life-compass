@@ -41,14 +41,16 @@ export class DailyQuestionCard {
     return {
       actions: {
         'question:shuffle': () => {
-          DailyService.shuffleQuestion(today());
+          if (!DailyService.shuffleQuestion(today())) return ctx.toast('無法儲存題目，請確認瀏覽器允許本機儲存');
           ctx.refresh();
         },
       },
       inputs: {
         'daily:answer': (el) => {
           const q = DailyService.questionFor(today());
-          DailyService.update(today(), { answer: el.value, questionId: q.id });
+          if (!DailyService.update(today(), { answer: el.value, questionId: q.id })) {
+            ctx.toast('無法儲存文字，內容仍保留在目前畫面');
+          }
         },
       },
     };

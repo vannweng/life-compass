@@ -49,14 +49,29 @@ export class GoodTimeService {
     StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.getAll().filter((e) => e.id !== id));
   }
 
-  /** 同一天同一行動只保留一筆能量紀錄，修改回饋不重複計數。 */
-  static saveForAction(actionId: string, activity: string, energy: EnergyLevel, isFlow: boolean): void {
+  /** 移除某行動在指定日期由回饋產生的能量紀錄。 */
+  static removeForAction(actionId: string, date = DateService.todayKey()): boolean {
+    return StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.withoutAction(actionId, date));
+  }
+
+  /** 產生同一天同一行動的最新能量紀錄；未選能量時移除舊紀錄。 */
+  static nextForAction(actionId: string, activity: string, energy: EnergyLevel | null, isFlow: boolean, date = DateService.todayKey()): GoodTimeEntry[] {
     const entries = this.getAll();
-    const date = DateService.todayKey();
+    const remaining = this.withoutAction(actionId, date, entries);
+    if (energy === null) return remaining;
     const existing = entries.find((entry) => entry.actionId === actionId && entry.date === date);
     const entry: GoodTimeEntry = { id: existing?.id ?? createId('gt'), date,
       time: existing?.time ?? DateService.nowTime(), actionId, activity, energy, isFlow };
-    StorageService.set(STORAGE_KEYS.GOOD_TIMES, [entry, ...entries.filter((item) => item.id !== entry.id)]);
+    return [entry, ...remaining];
+  }
+
+  /** 同一天同一行動只保留一筆能量紀錄，修改回饋不重複計數。 */
+  static saveForAction(actionId: string, activity: string, energy: EnergyLevel, isFlow: boolean): boolean {
+    return StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.nextForAction(actionId, activity, energy, isFlow));
+  }
+
+  private static withoutAction(actionId: string, date: string, entries = this.getAll()): GoodTimeEntry[] {
+    return entries.filter((entry) => entry.actionId !== actionId || entry.date !== date);
   }
 
   /**

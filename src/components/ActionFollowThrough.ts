@@ -1,4 +1,4 @@
-/** 行動旁直接展開協助與感受；感受點選即保存。 */
+/** 行動旁直接展開協助；完成後可選擇是否留下感受。 */
 import type { AppContext, Handlers } from '../models/AppContextModel';
 import { ACTION_BLOCKER_GUIDANCE, type ActionBlocker, type ActionDirection } from '../models/ActionFeedbackModel';
 import { isEnergyLevel } from '../models/GoodTimeModel';
@@ -20,20 +20,29 @@ export class ActionFollowThrough {
       activeActionId: null });
   }
 
-  private static save(ctx: AppContext): void {
-    if (!ctx.ui.feedbackActionId) return;
-    ActionFeedbackService.save(ctx.ui.feedbackActionId, ctx.ui.actionFeedbackDirection,
+  private static save(ctx: AppContext): boolean {
+    if (!ctx.ui.feedbackActionId) return false;
+    return ActionFeedbackService.save(ctx.ui.feedbackActionId, ctx.ui.actionFeedbackDirection,
       ctx.ui.drafts['action-feedback-note'] ?? '', ctx.ui.actionFeedbackEnergy, ctx.ui.actionFeedbackFlow);
   }
 
+  private static restoreAfterFailedSave(ctx: AppContext, id: string): void {
+    this.open(ctx, id);
+    ctx.toast('無法儲存感受，請確認瀏覽器允許本機儲存');
+  }
+
   static renderFor(ctx: AppContext, id: string): string {
+    const saved = ActionFeedbackService.getAll().find((f) => f.actionId === id && f.date === DateService.todayKey());
     if (ctx.ui.feedbackActionId === id) return `<div class="action-guidance action-guidance--feedback" id="action-feedback">
-      <div class="card__head"><p class="card__sub">完成已記下，感受點選即保存</p><button class="link-btn" data-action="action:close-feedback">收起</button></div>
-      ${ActionFeelings.energy(ctx.ui.actionFeedbackEnergy, 'action:feedback-energy')}
-      ${ActionFeelings.direction(ctx.ui.actionFeedbackDirection)}
-      <label class="flow-toggle"><input type="checkbox" data-action="action:feedback-flow" ${ctx.ui.actionFeedbackFlow ? 'checked' : ''} />做到忘記時間</label>
-      <details class="action-extra" id="feedback-extra"><summary>補一句觀察（選填）</summary><textarea class="textarea" id="action-feedback-note" data-input="action:feedback-note" aria-label="這一步的觀察" placeholder="發現什麼，或下次想怎麼試…" maxlength="500">${escapeHtml(ctx.ui.drafts['action-feedback-note'] ?? '')}</textarea></details>
-      <div class="action-follow-ups"><button class="link-btn" data-action="action:repeat" data-id="${id}">再做一次</button><button class="link-btn" data-action="action:experiment" data-id="${id}">延伸成小實驗</button></div>
+      <div class="card__head"><p class="card__sub">${saved ? '感受已儲存' : '想留下感受嗎？'}</p><button class="link-btn" data-action="action:close-feedback">先這樣</button></div>
+      <details class="action-extra" id="feedback-extra">
+        <summary>記下感受（選填）</summary>
+        ${ActionFeelings.energy(ctx.ui.actionFeedbackEnergy, 'action:feedback-energy')}
+        ${ActionFeelings.direction(ctx.ui.actionFeedbackDirection)}
+        <label class="flow-toggle"><input type="checkbox" data-action="action:feedback-flow" ${ctx.ui.actionFeedbackFlow ? 'checked' : ''} />做到忘記時間</label>
+        <textarea class="textarea" id="action-feedback-note" data-input="action:feedback-note" aria-label="這一步的觀察" placeholder="發現什麼，或下次想怎麼試…" maxlength="500">${escapeHtml(ctx.ui.drafts['action-feedback-note'] ?? '')}</textarea>
+      </details>
+      <div class="action-follow-ups">${saved ? `<button class="link-btn" data-action="action:clear-feedback" data-id="${id}">清除感受</button>` : ''}<button class="link-btn" data-action="action:repeat" data-id="${id}">再做一次</button><button class="link-btn" data-action="action:experiment" data-id="${id}">延伸成小實驗</button></div>
     </div>`;
     if (ctx.ui.activeActionId !== id) return '';
     const guide = ctx.ui.actionBlocker ? ACTION_BLOCKER_GUIDANCE[ctx.ui.actionBlocker] : null;
@@ -71,19 +80,36 @@ export class ActionFollowThrough {
       'action:feedback-direction': (el) => {
         const value = dataOf(el, 'value');
         if (value !== 'continue' && value !== 'change' && value !== 'pause') return;
-        ctx.ui.actionFeedbackDirection = value as ActionDirection;
-        this.save(ctx); ctx.refresh();
+        const id = ctx.ui.feedbackActionId;
+        if (!id) return;
+        ctx.ui.actionFeedbackDirection = ctx.ui.actionFeedbackDirection === value ? null : value as ActionDirection;
+        if (!this.save(ctx)) return this.restoreAfterFailedSave(ctx, id);
+        ctx.refresh();
       },
       'action:feedback-energy': (el) => {
         const value = Number(dataOf(el, 'value'));
         if (!isEnergyLevel(value)) return;
-        ctx.ui.actionFeedbackEnergy = value; this.save(ctx); ctx.refresh();
+        const id = ctx.ui.feedbackActionId;
+        if (!id) return;
+        ctx.ui.actionFeedbackEnergy = ctx.ui.actionFeedbackEnergy === value ? null : value;
+        if (!this.save(ctx)) return this.restoreAfterFailedSave(ctx, id);
+        ctx.refresh();
       },
       'action:feedback-flow': (el) => {
         if (!(el instanceof HTMLInputElement)) return;
-        ctx.ui.actionFeedbackFlow = el.checked; this.save(ctx); ctx.refresh();
+        const id = ctx.ui.feedbackActionId;
+        if (!id) return;
+        ctx.ui.actionFeedbackFlow = el.checked;
+        if (!this.save(ctx)) return this.restoreAfterFailedSave(ctx, id);
+        ctx.refresh();
       },
       'action:close-feedback': () => ctx.setUi({ feedbackActionId: null }),
+      'action:clear-feedback': (el) => {
+        if (!ActionFeedbackService.clear(dataOf(el, 'id'))) return ctx.toast('無法清除感受，請確認瀏覽器允許本機儲存');
+        ctx.clearDraft('action-feedback-note');
+        ctx.setUi({ feedbackActionId: null, actionFeedbackDirection: null, actionFeedbackEnergy: null, actionFeedbackFlow: false });
+        ctx.toast('已清除感受');
+      },
       'action:repeat': (el) => {
         const action = ActionService.find(dataOf(el, 'id'));
         if (!action) return;
@@ -103,7 +129,8 @@ export class ActionFollowThrough {
         ctx.setUi({ tab: 'explore', exploreSection: 'explore', scrollTarget: 'experiment-list' });
       },
     }, inputs: { 'action:feedback-note': (el) => {
-      ctx.ui.drafts['action-feedback-note'] = el.value; this.save(ctx);
+      ctx.ui.drafts['action-feedback-note'] = el.value;
+      if (!this.save(ctx)) ctx.toast('無法儲存感受，內容仍保留在目前畫面');
     } } };
   }
 }

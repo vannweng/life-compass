@@ -18,21 +18,13 @@ export class TimeStrip {
    */
   static render(profile: UserProfile): string {
     const s = LifeClockService.calculate(profile);
-    return `
-      <section class="card time-strip" id="time-strip" data-action="life:open" role="button" tabindex="0" aria-label="查看一生時間頁">
-        <div class="time-strip__glow"></div>
-        <p class="time-strip__day">今天是你人生的第 <b class="num">${s.lifeDayNumber.toLocaleString()}</b> 天</p>
-        <div class="time-strip__future">
-          <div class="time-strip__metric">
-            <span>今年還剩</span>
-            <p class="time-strip__metric-value"><b class="num">${s.yearDaysLeft}</b><span>天</span></p>
-          </div>
-          <div class="time-strip__metric time-strip__metric--seconds">
-            <span>餘生</span>
-            <p class="time-strip__metric-value"><b class="num" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</b><span>秒</span></p>
-          </div>
-        </div>
-      </section>`;
+    return `<button class="time-strip" id="time-strip" type="button" data-action="life:open" aria-label="查看一生時間頁">
+      <p class="time-strip__day">今天是你人生的第 <b class="num">${s.lifeDayNumber.toLocaleString()}</b> 天</p>
+      <div class="time-strip__future">
+        <span>今年還剩 <b class="num">${s.yearDaysLeft}</b> 天</span>
+        <span>餘生 <b class="num" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</b> 秒</span>
+      </div>
+    </button>`;
   }
 
   /**

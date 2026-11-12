@@ -28,17 +28,28 @@ export class ActionFeedbackService {
    * @param actionId 行動 ID。
    * @param direction 暫時方向，可留空。
    * @param note 觀察、疑問或原因。
-   * @returns 無。
+   * @returns 是否成功儲存。
    */
-  static save(actionId: string, direction: ActionDirection | null, note: string, energy: EnergyLevel | null = null, isFlow = false): void {
+  static save(actionId: string, direction: ActionDirection | null, note: string, energy: EnergyLevel | null = null, isFlow = false): boolean {
     const date = DateService.todayKey();
     const prior = this.getAll().find((item) => item.actionId === actionId && item.date === date);
     const step = ActionService.stepFor(actionId);
     const next: ActionFeedback = { id: prior?.id ?? createId('feedback'), actionId, date, direction,
       note: note.trim(), energy, isFlow, step, createdAt: new Date().toISOString() };
     const existing = this.getAll().filter((item) => item.actionId !== actionId || item.date !== date);
-    StorageService.set(STORAGE_KEYS.ACTION_FEEDBACK, [...existing, next]);
-    if (energy !== null) GoodTimeService.saveForAction(actionId, step, energy, isFlow);
+    return StorageService.setMany([
+      { key: STORAGE_KEYS.ACTION_FEEDBACK, value: [...existing, next] },
+      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, step, energy, isFlow, date) },
+    ]);
+  }
+
+  /** 清除某日某行動留下的感受與其能量紀錄。 */
+  static clear(actionId: string): boolean {
+    const date = DateService.todayKey();
+    return StorageService.setMany([
+      { key: STORAGE_KEYS.ACTION_FEEDBACK, value: this.getAll().filter((item) => item.actionId !== actionId || item.date !== date) },
+      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, '', null, false, date) },
+    ]);
   }
 
   /**

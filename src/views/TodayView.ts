@@ -24,8 +24,8 @@ export class TodayView {
     const date = DateService.todayKey();
     return `<div class="view" id="view-today">
       ${TimeStrip.render(profile)}
-      ${MoodNoteCard.render(date)}
       ${TodayActions.render(date, ctx)}
+      ${MoodNoteCard.render(date)}
     </div>`;
   }
 

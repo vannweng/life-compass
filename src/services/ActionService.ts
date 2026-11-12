@@ -88,6 +88,11 @@ export class ActionService {
     StorageService.set(STORAGE_KEYS.ACTIONS, this.getAll().map((a) => (a.id === id ? { ...a, archived: true } : a)));
   }
 
+  /** 將剛收起的行動恢復到今天清單。 */
+  static restore(id: string): void {
+    StorageService.set(STORAGE_KEYS.ACTIONS, this.getAll().map((a) => (a.id === id ? { ...a, archived: false } : a)));
+  }
+
   /**
    * @description 是否在某日完成
    * @param id 行動 ID

@@ -8,6 +8,7 @@ import type { ThemeMode, UserProfile } from '../models/ProfileModel';
 import { LifeClockService } from '../services/LifeClockService';
 import { ProfileService } from '../services/ProfileService';
 import { escapeHtml } from '../services/TextService';
+import { DateService } from '../services/DateService';
 import { ICONS, dataOf, icon, valueOf } from './Dom';
 
 /** @description 主題選項 */
@@ -35,7 +36,7 @@ export class ProfileModal {
       <label class="field-label" for="pf-name">暱稱</label>
       <input class="field" id="pf-name" data-input="profile:name" value="${escapeHtml(profile.name)}" maxlength="12" />
       <label class="field-label" for="pf-birth">出生日期</label>
-      <input class="field" type="date" id="pf-birth" data-input="profile:birth" value="${profile.birthDate}" />
+      <input class="field" type="date" id="pf-birth" data-input="profile:birth" max="${DateService.todayKey()}" value="${profile.birthDate}" />
       <label class="field-label" for="pf-age">預期壽命：<b class="num" id="pf-age-val">${profile.expectedAge}</b> 歲</label>
       <input type="range" id="pf-age" data-input="profile:age" min="60" max="100" value="${profile.expectedAge}" style="width:100%;accent-color:var(--accent)" />
       <label class="field-label">外觀</label><div class="seg">${themes}</div>
@@ -68,11 +69,15 @@ export class ProfileModal {
       },
       inputs: {
         'profile:name': (el) => { ProfileService.update({ name: el.value.trim() || '探索者' }); },
-        'profile:birth': (el) => { if (el.value) { ProfileService.update({ birthDate: el.value }); ctx.refresh(); } },
+        'profile:birth': (el) => {
+          if (!el.value || el.value > DateService.todayKey()) return ctx.toast('生日需為今天或更早的日期');
+          ProfileService.update({ birthDate: el.value }); ctx.refresh();
+        },
         'profile:age': (el) => {
           ProfileService.update({ expectedAge: Number(el.value) });
           const label = document.getElementById('pf-age-val');
           if (label) label.textContent = el.value;
+          ctx.refresh();
         },
         'profile:life': (el) => compass({ life: el.value }),
         'profile:work': (el) => compass({ work: el.value }),

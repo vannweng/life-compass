@@ -13,7 +13,7 @@ export type AppMemory = Pick<UiState, 'tab' | 'exploreSection' | 'goalStatusFilt
 export const DRAFT_FIELDS: readonly string[] = [
   'gt-activity', 'goal-title', 'goal-cat', 'goal-stage', 'act-title', 'act-reason', 'act-repeat',
   'action-micro-step', 'action-feedback-note', 'act-goal', 'act-experiment',
-  'idea-title', 'idea-step', 'exp-title', 'exp-hyp', 'exp-type', 'ob-activity', 'ob-name',
+  'idea-title', 'idea-step', 'exp-title', 'exp-hyp', 'exp-type', 'ob-activity', 'ob-name', 'ob-energy',
 ];
 
 /** @description 記憶資料版本。 */
@@ -67,7 +67,7 @@ export function parseAppMemory(value: unknown): Partial<AppMemory> {
   if (value['actionEntryMode'] === 'plan' || value['actionEntryMode'] === 'record') memory.actionEntryMode = value['actionEntryMode'];
   if (value['actionEntryEnergy'] === null || isEnergyLevel(value['actionEntryEnergy'])) memory.actionEntryEnergy = value['actionEntryEnergy'];
   const step = value['onboardingStep'];
-  if (typeof step === 'number' && Number.isInteger(step) && step >= 1 && step <= 4) memory.onboardingStep = step;
+  if (typeof step === 'number' && Number.isInteger(step) && step >= 1 && step <= 5) memory.onboardingStep = step;
   const drafts = value['drafts'];
   if (isRecord(drafts)) {
     memory.drafts = {};

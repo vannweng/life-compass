@@ -48,13 +48,39 @@ export class StorageService {
    * @description 寫入資料
    * @param key 儲存鍵值
    * @param value 欲儲存的值
-   * @returns 無
+   * @returns 是否成功寫入
    */
-  static set<T>(key: StorageKey, value: T): void {
+  static set<T>(key: StorageKey, value: T): boolean {
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      return true;
     } catch (error: unknown) {
       console.error(`[StorageService] write failed: ${key}`, error);
+      return false;
+    }
+  }
+
+  /**
+   * @description 將相依資料一起寫入；任一筆失敗時，盡力還原本次變更。
+   * @returns 是否全部成功寫入
+   */
+  static setMany(entries: ReadonlyArray<{ key: StorageKey; value: unknown }>): boolean {
+    let previous: Array<{ key: StorageKey; raw: string | null }> = [];
+    try {
+      previous = entries.map(({ key }) => ({ key, raw: localStorage.getItem(key) }));
+      entries.forEach(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)));
+      return true;
+    } catch (error: unknown) {
+      try {
+        previous.forEach(({ key, raw }) => {
+          if (raw === null) localStorage.removeItem(key);
+          else localStorage.setItem(key, raw);
+        });
+      } catch (rollbackError: unknown) {
+        console.error('[StorageService] rollback failed', rollbackError);
+      }
+      console.error('[StorageService] batch write failed', error);
+      return false;
     }
   }
 

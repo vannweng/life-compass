@@ -63,6 +63,8 @@ export interface UiState {
   actionBlocker: ActionBlocker | null;
   /** 正在留下完成線索的行動 ID */
   feedbackActionId: string | null;
+  /** 最近收起、仍可立即復原的行動 ID */
+  lastArchivedActionId: string | null;
   /** 完成後暫時選擇的方向 */
   actionFeedbackDirection: ActionDirection | null;
   actionFeedbackEnergy: EnergyLevel | null;

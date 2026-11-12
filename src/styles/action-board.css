@@ -1,0 +1,105 @@
+/* 俐落行動板：共用層級、控制項與各頁的閱讀節奏。 */
+:root {
+  --text-body: 0.875rem;
+  --text-input: 0.875rem;
+  --text-title: 1.125rem;
+  --text-page: 1.375rem;
+  --leading-body: 1.6;
+  --leading-title: 1.35;
+  --weight-strong: 700;
+  --gap-control: 8px;
+  --gap-content: 16px;
+  --surface-padding: 24px;
+  --section-gap: 24px;
+  --control-height: 44px;
+  --bg: #111310;
+  --bg-elev: #20231e;
+  --card: #1a1d18;
+  --card-hi: #2b2f27;
+  --line: #4b5145;
+  --rule: #34392f;
+  --muted: #b4b9ad;
+  --faint: #a4ab9b;
+  --material-nav: #181b16;
+  --material-sheet: #1a1d18;
+  --primary-fill: #b7f24a;
+  --primary-ink: #181b17;
+}
+[data-theme='light'] {
+  --bg: #eef0e9;
+  --bg-elev: #ffffff;
+  --card: #f9faf6;
+  --card-hi: #e3e7dc;
+  --line: #bbc3b2;
+  --rule: #d7ddcf;
+  --text: #181b17;
+  --muted: #555e4c;
+  --faint: #626c58;
+  --material-nav: #f9faf6;
+  --material-sheet: #f9faf6;
+  --primary-fill: #b7f24a;
+  --primary-ink: #181b17;
+}
+html { color-scheme: dark; scrollbar-color: var(--line) var(--bg); }
+html[data-theme='light'] { color-scheme: light; }
+::selection { background: var(--check-fill); color: var(--check-mark); }
+input, textarea { caret-color: var(--text); }
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
+.app-header { padding-block: 20px; margin-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.app-header__title { letter-spacing: -0.025em; }
+.card { box-shadow: none; }
+.card__head { margin-bottom: 20px; }
+.card__sub { margin-top: 6px; }
+.btn, .field, .textarea, .seg button, .odyssey-tab { border-radius: 12px; }
+.btn { padding: 10px 16px; }
+.btn--ghost { color: var(--text); }
+.btn--ghost:hover { background: color-mix(in srgb, var(--card-hi) 80%, var(--text)); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.field, .textarea { padding: 11px 12px; }
+.textarea { min-height: 104px; }
+.field-label { margin-block: 16px 6px; }
+[aria-invalid='true'] { border-color: var(--danger); }
+.row { padding-block: 16px; }
+.row__meta, .context-label { line-height: 1.5; }
+.empty { padding: 28px 12px; }
+.bottom-nav { background: var(--material-nav); backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; border-top: 1px solid var(--rule); }
+.bottom-nav__item.is-active { color: var(--accent); background: var(--accent-soft); }
+.modal { background: var(--material-sheet); backdrop-filter: none; -webkit-backdrop-filter: none; padding: 24px; }
+.modal .card { background: transparent; padding: 16px 0; border-bottom: 1px solid var(--rule); border-radius: 0; }
+.modal__head { margin-bottom: 20px; }
+.ob-big { display: block; font-size: 20px; line-height: 1.5; font-weight: 700; margin-bottom: 16px; }
+.ob-dots { margin-bottom: 20px; }
+.ob-hint { margin-top: 16px; line-height: 1.6; }
+.explore-section-tabs, .odyssey-tabs, .seg, .action-entry-tabs { padding: 4px; background: var(--card-hi); border-radius: 12px; gap: 4px; }
+.explore-section-tabs .btn, .odyssey-tabs .btn, .seg button { background: transparent; }
+.explore-section-tabs .is-active, .odyssey-tabs .is-active, .seg .is-active { background: var(--text); color: var(--bg); }
+.exploration-block { padding-block: 24px; }
+.exploration-block__head { margin-bottom: 12px; }
+.exploration-signal { min-height: 56px; }
+.exploration-signal b { font-size: var(--text-body); }
+.idea-row, .exp-card { padding-block: 16px; }
+.exploration-hub > .idea-add { padding-block: 20px; }
+.goal-add { padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.goal-list { margin-top: 16px; }
+.time-strip { padding-block: 8px 16px; }
+#view-today #today-actions { background: var(--card); }
+.action-guidance { padding: 16px; }
+.action-extra summary { min-height: 44px; }
+.toast { line-height: 1.5; text-align: center; }
+@media (min-width: 768px) {
+  .exploration-hub { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; }
+  .exploration-hub > .card__head, .exploration-hub > .idea-add, .exploration-hub > .exploration-block:first-of-type { grid-column: 1 / -1; }
+  #view-review #mood-trend { grid-column: 1; }
+  #view-review #history-calendar { grid-column: 2; grid-row: 2 / span 2; }
+  #view-today .mood-reflection-card { max-width: 640px; width: 100%; }
+}
+.cal-day { min-height: 56px; }
+.mood-tree { width: 24px; }
+@media (max-width: 599px) {
+  :root { --surface-padding: 20px; --section-gap: 20px; }
+  .app-header { padding-block: 16px; }
+  .card, #today-actions { padding: 20px; }
+  .modal { padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); }
+  input.field, select.field, textarea.textarea { font-size: 16px; }
+  .modal .field-row { gap: 8px; }
+}

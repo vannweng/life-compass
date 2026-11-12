@@ -31,22 +31,25 @@ export class MoodNoteCard {
   static render(date: string): string {
     const entry = DailyService.get(date);
     const question = DailyService.questionFor(date);
+    const hasClue = entry.mood !== null || entry.answer.trim().length > 0;
     const moods = MOOD_OPTIONS.map((m) => `
       <button class="mood-btn ${entry.mood === m.value ? 'is-active' : ''}" style="--c:${m.color}"
         data-action="mood:set" data-value="${m.value}" id="mood-${m.value}" aria-pressed="${entry.mood === m.value}">
         ${m.label}
       </button>`).join('');
     return `
-      <section class="card mood-reflection-card" id="mood-note">
+      <section class="mood-reflection-card" id="mood-note">
         <div class="card__head"><h3>今天的心情</h3></div>
         <div class="mood-row" role="group" aria-label="今天的心情">${moods}</div>
-        <div class="mood-reflection-card__prompt">
+        ${hasClue ? '<p class="mood-reflection-card__status">今天已留下線索</p>' : ''}
+        <details class="mood-reflection-card__prompt">
+          <summary>想留下一句嗎？（選填）</summary>
           <div class="card__head">
             <p class="question-card__text">${escapeHtml(question.text)}</p>
             <button class="link-btn" data-action="question:shuffle">${icon(ICONS.refresh, 14)}換一題</button>
           </div>
           <textarea class="textarea" id="daily-answer" data-input="daily:answer" aria-label="${escapeHtml(question.text)}" placeholder="一句話就好，不用寫很多…">${escapeHtml(entry.answer)}</textarea>
-        </div>
+        </details>
       </section>`;
   }
 
@@ -62,18 +65,22 @@ export class MoodNoteCard {
           const value = Number(dataOf(el, 'value'));
           if (!isMood(value)) return;
           const current = DailyService.get(DateService.todayKey()).mood;
-          DailyService.update(DateService.todayKey(), { mood: current === value ? null : value });
+          if (!DailyService.update(DateService.todayKey(), { mood: current === value ? null : value })) {
+            return ctx.toast('無法儲存心情，請確認瀏覽器允許本機儲存');
+          }
           ctx.refresh();
         },
         'question:shuffle': () => {
-          DailyService.shuffleQuestion(DateService.todayKey());
+          if (!DailyService.shuffleQuestion(DateService.todayKey())) return ctx.toast('無法儲存題目，請確認瀏覽器允許本機儲存');
           ctx.refresh();
         },
       },
       inputs: {
         'daily:answer': (el) => {
           const date = DateService.todayKey();
-          DailyService.update(date, { answer: el.value, questionId: DailyService.questionFor(date).id });
+          if (!DailyService.update(date, { answer: el.value, questionId: DailyService.questionFor(date).id })) {
+            ctx.toast('無法儲存文字，內容仍保留在目前畫面');
+          }
         },
       },
     };

@@ -35,7 +35,7 @@ export class CalendarMoodPicker {
       actions: {
         'cal:mood': (el: HTMLElement): void => {
           const date = dataOf(el, 'date');
-          if (!DailyService.setMoodForDate(date, Number(dataOf(el, 'value')))) return;
+          if (!DailyService.setMoodForDate(date, Number(dataOf(el, 'value')))) return ctx.toast('無法儲存心情，請再試一次');
           ctx.refresh();
           ctx.toast('當日心情已儲存');
         },
