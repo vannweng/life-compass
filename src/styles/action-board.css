@@ -12,16 +12,16 @@
   --surface-padding: 24px;
   --section-gap: 24px;
   --control-height: 44px;
-  --bg: #111310;
-  --bg-elev: #20231e;
-  --card: #1a1d18;
-  --card-hi: #2b2f27;
+  --bg: #111c17;
+  --bg-elev: #1b2b23;
+  --card: #1b2821;
+  --card-hi: #2b3a31;
   --line: #4b5145;
   --rule: #34392f;
   --muted: #b4b9ad;
   --faint: #a4ab9b;
-  --material-nav: #181b16;
-  --material-sheet: #1a1d18;
+  --material-nav: #18251e;
+  --material-sheet: #1b2821;
   --primary-fill: #b7f24a;
   --primary-ink: #181b17;
 }
@@ -83,6 +83,20 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
 .goal-list { margin-top: 16px; }
 .time-strip { padding-block: 8px 16px; }
 #view-today #today-actions { background: var(--card); }
+.today-context { display: grid; gap: var(--section-gap); }
+.today-clues { padding: var(--space-default) 0; }
+.today-clues h3 { margin-bottom: var(--space-3); }
+.today-clues ul { list-style: none; }
+.today-clues li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gap-control);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  overflow-wrap: anywhere;
+}
+.today-clues .row__meta { flex: none; }
 .action-guidance { padding: 16px; }
 .action-extra summary { min-height: 44px; }
 .toast { line-height: 1.5; text-align: center; }
@@ -91,7 +105,9 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
   .exploration-hub > .card__head, .exploration-hub > .idea-add, .exploration-hub > .exploration-block:first-of-type { grid-column: 1 / -1; }
   #view-review #mood-trend { grid-column: 1; }
   #view-review #history-calendar { grid-column: 2; grid-row: 2 / span 2; }
-  #view-today .mood-reflection-card { max-width: 640px; width: 100%; }
+  #view-today { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  #view-today #today-actions { grid-column: 1; }
+  #view-today .today-context { grid-column: 2; }
 }
 .cal-day { min-height: 56px; }
 .mood-tree { width: 24px; }

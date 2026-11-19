@@ -9,6 +9,9 @@ import { TodayActions } from '../components/TodayActions';
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
 import type { UserProfile } from '../models/ProfileModel';
 import { DateService } from '../services/DateService';
+import { GoodTimeService } from '../services/GoodTimeService';
+import { ENERGY_OPTIONS } from '../models/GoodTimeModel';
+import { escapeHtml } from '../services/TextService';
 
 /**
  * @description 今天分頁
@@ -22,10 +25,20 @@ export class TodayView {
    */
   static render(ctx: AppContext, profile: UserProfile): string {
     const date = DateService.todayKey();
+    const clues = GoodTimeService.recent(7).slice(0, 3);
     return `<div class="view" id="view-today">
       ${TimeStrip.render(profile)}
       ${TodayActions.render(date, ctx)}
-      ${MoodNoteCard.render(date)}
+      <aside class="today-context">
+        <section class="today-clues">
+          <h3>最近能量紀錄</h3>
+          ${clues.length ? `<ul>${clues.map((entry) => `<li>
+            <span>${escapeHtml(entry.activity)}</span>
+            <span class="row__meta">${ENERGY_OPTIONS.find((option) => option.value === entry.energy)?.label ?? ''}</span>
+          </li>`).join('')}</ul>` : '<p class="muted">記下一件事和做完的感受，這裡就會顯示你的能量紀錄。</p>'}
+        </section>
+        ${MoodNoteCard.render(date)}
+      </aside>
     </div>`;
   }
 
