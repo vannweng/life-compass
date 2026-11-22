@@ -1,0 +1,9 @@
+.next-step-guide { margin-bottom: var(--space-default); }
+.next-step-guide__message { font-size: 17px; font-weight: 700; line-height: 1.4; margin-top: 4px; }
+.next-step-guide__bar { height: 4px; border-radius: 2px; background: var(--card-hi); margin: 12px 0; overflow: hidden; }
+.next-step-guide__bar > i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+.compass-reflection { margin-bottom: var(--space-default); }
+.compass-reflection blockquote { margin: 8px 0; padding: 10px 12px; background: var(--card-hi); border-radius: var(--radius-md); font-size: 14px; line-height: 1.55; }
+.compass-reflection__question { font-size: 14px; font-weight: 700; line-height: 1.55; margin-top: 8px; }
+.compass-reflection .link-btn { margin-top: 8px; }
+.backup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }

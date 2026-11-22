@@ -3,6 +3,7 @@
  * @module views/ReviewView
  */
 
+import { CompassReflection } from '../components/CompassReflection';
 import { HistoryCalendar } from '../components/HistoryCalendar';
 import { LifeGrid } from '../components/LifeGrid';
 import { WeeklyNextStep } from '../components/WeeklyNextStep';
@@ -21,6 +22,7 @@ export class ReviewView {
    */
   static render(ctx: AppContext, _profile: UserProfile): string {
     return `<div class="view" id="view-review">
+      ${CompassReflection.render()}
       ${WeeklyNextStep.render()}
       ${LifeGrid.renderMood()}
       ${HistoryCalendar.render(ctx)}
@@ -33,6 +35,6 @@ export class ReviewView {
    * @returns 處理器集合
    */
   static handlers(ctx: AppContext): Handlers {
-    return mergeHandlers(HistoryCalendar.handlers(ctx), WeeklyNextStep.handlers(ctx));
+    return mergeHandlers(CompassReflection.handlers(ctx), HistoryCalendar.handlers(ctx), WeeklyNextStep.handlers(ctx));
   }
 }

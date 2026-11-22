@@ -3,6 +3,7 @@
  * @module views/TodayView
  */
 
+import { NextStepGuide } from '../components/NextStepGuide';
 import { MoodNoteCard } from '../components/MoodNoteCard';
 import { TimeStrip } from '../components/TimeStrip';
 import { TodayActions } from '../components/TodayActions';
@@ -27,6 +28,7 @@ export class TodayView {
     const date = DateService.todayKey();
     const clues = GoodTimeService.recent(7).slice(0, 3);
     return `<div class="view" id="view-today">
+      ${NextStepGuide.render()}
       ${TimeStrip.render(profile)}
       ${TodayActions.render(date, ctx)}
       <aside class="today-context">
@@ -49,6 +51,7 @@ export class TodayView {
    */
   static handlers(ctx: AppContext): Handlers {
     return mergeHandlers(
+      NextStepGuide.handlers(ctx),
       TimeStrip.handlers(ctx),
       MoodNoteCard.handlers(ctx),
       TodayActions.handlers(ctx),

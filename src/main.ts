@@ -15,6 +15,7 @@ import './styles/action-follow-through.css';
 import './styles/architecture.css';
 import './styles/today.css';
 import './styles/action-board.css';
+import './styles/next-step-guide.css';
 import { App } from './App';
 
 const root = document.getElementById('app-root');

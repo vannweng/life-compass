@@ -6,6 +6,7 @@
 import type { AppContext, Handlers } from '../models/AppContextModel';
 import type { ThemeMode, UserProfile } from '../models/ProfileModel';
 import { LifeClockService } from '../services/LifeClockService';
+import { BackupService } from '../services/BackupService';
 import { ProfileService } from '../services/ProfileService';
 import { escapeHtml } from '../services/TextService';
 import { DateService } from '../services/DateService';
@@ -44,6 +45,11 @@ export class ProfileModal {
       <textarea class="textarea" id="pf-life" data-input="profile:life" placeholder="你覺得什麼樣的人生是有意義的？">${escapeHtml(profile.compass.life)}</textarea>
       <label class="field-label" for="pf-work">我的工作觀</label>
       <textarea class="textarea" id="pf-work" data-input="profile:work" placeholder="你為什麼工作？工作對你代表什麼？">${escapeHtml(profile.compass.work)}</textarea>
+      <label class="field-label">資料備份</label>
+      <p class="muted" style="font-size:13px">資料只存在這個瀏覽器。換手機或清除資料前，先匯出備份。</p>
+      <div class="backup-actions"><button class="btn btn--ghost" data-action="backup:export">匯出備份</button>
+        <label class="btn btn--ghost" for="pf-import">匯入備份</label>
+        <input type="file" id="pf-import" data-input="backup:import" accept="application/json,.json" hidden /></div>
       <button class="btn btn--primary btn--block" style="margin-top:16px" data-action="profile:close">完成</button></div></div>`;
   }
 
@@ -59,6 +65,7 @@ export class ProfileModal {
     return {
       actions: {
         'profile:close': () => ctx.setUi({ showProfile: false }),
+        'backup:export': () => { BackupService.download(); ctx.toast('已匯出備份檔'); },
         'profile:theme': (el) => {
           const id = dataOf(el, 'id');
           const theme: ThemeMode = id === 'light' || id === 'system' ? id : 'dark';
@@ -78,6 +85,18 @@ export class ProfileModal {
           const label = document.getElementById('pf-age-val');
           if (label) label.textContent = el.value;
           ctx.refresh();
+        },
+        'backup:import': (el) => {
+          const file = el instanceof HTMLInputElement ? el.files?.[0] : undefined;
+          if (!file) return;
+          void file.text().then((text) => {
+            const entries = BackupService.parse(text);
+            if (!entries) return ctx.toast('這不是有效的 Life Compass 備份檔');
+            if (!window.confirm('匯入會用備份內容覆蓋目前同類資料，確定要繼續嗎？')) return;
+            if (!BackupService.restore(entries)) return ctx.toast('匯入失敗，目前資料未變更');
+            window.location.reload();
+          });
+          el.value = '';
         },
         'profile:life': (el) => compass({ life: el.value }),
         'profile:work': (el) => compass({ work: el.value }),
