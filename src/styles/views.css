@@ -49,3 +49,4 @@
 .bare-delete-btn { width: 40px; padding: 0; border: 0; background: transparent; }
 .tag { font-size: var(--text-caption); font-weight: var(--weight-medium); padding: var(--space-2) var(--space-default); border-radius: var(--radius); background: var(--card-hi); color: var(--muted); }
 .tag--love { background: var(--accent-soft); color: var(--accent); }
+.ease-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-control); margin: var(--space-2) 0; }

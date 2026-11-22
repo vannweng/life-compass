@@ -1,6 +1,7 @@
 /** @description 把能量線索、待試點子與小實驗串成同一張探索卡。 */
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
 import { EnergyInsight } from './EnergyInsight';
+import { StrengthClues } from './StrengthClues';
 import { ExperimentList } from './ExperimentList';
 import { IdeaInbox } from './IdeaInbox';
 
@@ -11,6 +12,7 @@ export class ExplorationHub {
     return `<section class="card exploration-hub" id="exploration-hub" tabindex="-1">
       <div class="card__head"><h3>探索自己</h3></div>
       ${EnergyInsight.renderSummary()}
+      ${StrengthClues.render()}
       ${IdeaInbox.renderComposer()}
       ${ExperimentList.renderContent()}
       ${IdeaInbox.renderList(ctx)}

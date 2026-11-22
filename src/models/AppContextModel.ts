@@ -4,7 +4,7 @@
  */
 
 import type { GoalStatusFilter } from './GoalModel';
-import type { EnergyLevel } from './GoodTimeModel';
+import type { EaseLevel, EnergyLevel } from './GoodTimeModel';
 import type { OdysseyType } from './OdysseyModel';
 import type { TabId } from './TabModel';
 import type { ActionBlocker, ActionDirection } from './ActionFeedbackModel';
@@ -69,6 +69,8 @@ export interface UiState {
   actionFeedbackDirection: ActionDirection | null;
   actionFeedbackEnergy: EnergyLevel | null;
   actionFeedbackFlow: boolean;
+  actionFeedbackEase: EaseLevel | null;
+  actionEntryEase: EaseLevel | null;
   actionEntryMode: 'plan' | 'record';
   actionEntryEnergy: EnergyLevel | null;
   /** 尚未送出的輸入草稿（元素 ID → 文字），由組件於重繪時回填 */

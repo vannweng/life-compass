@@ -1,7 +1,7 @@
 /** 行動旁直接展開協助；完成後可選擇是否留下感受。 */
 import type { AppContext, Handlers } from '../models/AppContextModel';
 import { ACTION_BLOCKER_GUIDANCE, type ActionBlocker, type ActionDirection } from '../models/ActionFeedbackModel';
-import { isEnergyLevel } from '../models/GoodTimeModel';
+import { isEaseLevel, isEnergyLevel } from '../models/GoodTimeModel';
 import { ActionFeedbackService } from '../services/ActionFeedbackService';
 import { ActionService } from '../services/ActionService';
 import { DateService } from '../services/DateService';
@@ -16,14 +16,14 @@ export class ActionFollowThrough {
     ctx.clearDraft('action-feedback-note');
     ctx.ui.drafts['action-feedback-note'] = feedback?.note ?? '';
     ctx.setUi({ feedbackActionId: id, actionFeedbackDirection: feedback?.direction ?? null,
-      actionFeedbackEnergy: feedback?.energy ?? null, actionFeedbackFlow: feedback?.isFlow ?? false,
+      actionFeedbackEnergy: feedback?.energy ?? null, actionFeedbackFlow: feedback?.isFlow ?? false, actionFeedbackEase: feedback?.ease ?? null,
       activeActionId: null });
   }
 
   private static save(ctx: AppContext): boolean {
     if (!ctx.ui.feedbackActionId) return false;
     return ActionFeedbackService.save(ctx.ui.feedbackActionId, ctx.ui.actionFeedbackDirection,
-      ctx.ui.drafts['action-feedback-note'] ?? '', ctx.ui.actionFeedbackEnergy, ctx.ui.actionFeedbackFlow);
+      ctx.ui.drafts['action-feedback-note'] ?? '', ctx.ui.actionFeedbackEnergy, ctx.ui.actionFeedbackFlow, ctx.ui.actionFeedbackEase);
   }
 
   private static restoreAfterFailedSave(ctx: AppContext, id: string): void {
@@ -38,6 +38,7 @@ export class ActionFollowThrough {
       <details class="action-extra" id="feedback-extra">
         <summary>記下感受（選填）</summary>
         ${ActionFeelings.energy(ctx.ui.actionFeedbackEnergy, 'action:feedback-energy')}
+        ${ctx.ui.actionFeedbackEnergy !== null ? ActionFeelings.ease(ctx.ui.actionFeedbackEase, 'action:feedback-ease') : ''}
         ${ActionFeelings.direction(ctx.ui.actionFeedbackDirection)}
         <label class="flow-toggle"><input type="checkbox" data-action="action:feedback-flow" ${ctx.ui.actionFeedbackFlow ? 'checked' : ''} />做到忘記時間</label>
         <textarea class="textarea" id="action-feedback-note" data-input="action:feedback-note" aria-label="這一步的觀察" placeholder="發現什麼，或下次想怎麼試…" maxlength="500">${escapeHtml(ctx.ui.drafts['action-feedback-note'] ?? '')}</textarea>
@@ -95,6 +96,14 @@ export class ActionFollowThrough {
         if (!this.save(ctx)) return this.restoreAfterFailedSave(ctx, id);
         ctx.refresh();
       },
+      'action:feedback-ease': (el) => {
+        const value = Number(dataOf(el, 'value'));
+        const id = ctx.ui.feedbackActionId;
+        if (!isEaseLevel(value) || !id) return;
+        ctx.ui.actionFeedbackEase = ctx.ui.actionFeedbackEase === value ? null : value;
+        if (!this.save(ctx)) return this.restoreAfterFailedSave(ctx, id);
+        ctx.refresh();
+      },
       'action:feedback-flow': (el) => {
         if (!(el instanceof HTMLInputElement)) return;
         const id = ctx.ui.feedbackActionId;
@@ -107,7 +116,7 @@ export class ActionFollowThrough {
       'action:clear-feedback': (el) => {
         if (!ActionFeedbackService.clear(dataOf(el, 'id'))) return ctx.toast('無法清除感受，請確認瀏覽器允許本機儲存');
         ctx.clearDraft('action-feedback-note');
-        ctx.setUi({ feedbackActionId: null, actionFeedbackDirection: null, actionFeedbackEnergy: null, actionFeedbackFlow: false });
+        ctx.setUi({ feedbackActionId: null, actionFeedbackDirection: null, actionFeedbackEnergy: null, actionFeedbackFlow: false, actionFeedbackEase: null });
         ctx.toast('已清除感受');
       },
       'action:repeat': (el) => {

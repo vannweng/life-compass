@@ -30,6 +30,27 @@ export interface GoodTimeEntry {
   isFlow: boolean;
   /** 從已完成行動留下的能量，避免重複記錄。 */
   actionId?: string;
+  /** 做起來的順手度（選填）：1 吃力、2 還行、3 很順手 */
+  ease?: EaseLevel | null;
+}
+
+/** @description 順手度 1（吃力）~ 3（很順手） */
+export type EaseLevel = 1 | 2 | 3;
+
+/** @description 順手度選項 */
+export const EASE_OPTIONS: ReadonlyArray<{ value: EaseLevel; label: string }> = [
+  { value: 1, label: '有點吃力' },
+  { value: 2, label: '還行' },
+  { value: 3, label: '很順手' },
+];
+
+/**
+ * @description 判斷任意數值是否為合法順手度
+ * @param value 待檢查數值
+ * @returns 是否為 EaseLevel
+ */
+export function isEaseLevel(value: unknown): value is EaseLevel {
+  return value === 1 || value === 2 || value === 3;
 }
 
 /** @description 能量選項 */

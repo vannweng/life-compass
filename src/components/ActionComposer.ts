@@ -5,7 +5,7 @@ import { ActionFeedbackService } from '../services/ActionFeedbackService';
 import { DateService } from '../services/DateService';
 import { ExperimentService } from '../services/ExperimentService';
 import { GoalService } from '../services/GoalService';
-import { isEnergyLevel } from '../models/GoodTimeModel';
+import { isEaseLevel, isEnergyLevel } from '../models/GoodTimeModel';
 import { escapeHtml } from '../services/TextService';
 import { ActionFeelings } from './ActionFeelings';
 import { dataOf, valueOf } from './Dom';
@@ -25,6 +25,7 @@ export class ActionComposer {
         placeholder="${record ? '剛做完什麼？例如：和朋友散步' : '今天想做的一小步…'}" maxlength="100" />
         <button class="btn btn--primary" data-action="act:add">${record ? '記下' : '新增'}</button></div>
       ${record ? ActionFeelings.energy(ctx.ui.actionEntryEnergy, 'act:entry-energy') : ''}
+      ${record && ctx.ui.actionEntryEnergy !== null ? ActionFeelings.ease(ctx.ui.actionEntryEase, 'act:entry-ease') : ''}
       <div class="action-composer__options">
       ${!record ? `<select class="field action-repeat-select" id="act-repeat" aria-label="行動頻率"><option value="once">這次就好</option><option value="daily">每天</option></select>` : ''}
       <details class="action-extra" id="action-extra"><summary>更多選項（選填）</summary>
@@ -37,6 +38,7 @@ export class ActionComposer {
     return { actions: {
       'act:mode': (el) => ctx.setUi({ actionEntryMode: dataOf(el, 'value') === 'record' ? 'record' : 'plan', feedbackActionId: null, activeActionId: null }),
       'act:entry-energy': (el) => { const value = Number(dataOf(el, 'value')); if (isEnergyLevel(value)) ctx.setUi({ actionEntryEnergy: value }); },
+      'act:entry-ease': (el) => { const value = Number(dataOf(el, 'value')); if (isEaseLevel(value)) ctx.setUi({ actionEntryEase: ctx.ui.actionEntryEase === value ? null : value }); },
       'act:add': () => {
         const title = valueOf('act-title');
         if (!title) return ctx.toast('寫下一件小事就好');
@@ -48,10 +50,10 @@ export class ActionComposer {
         if (experiment) ExperimentService.update(experiment.id, { status: 'doing' });
         if (record) {
           ActionService.toggle(action.id, DateService.todayKey());
-          ActionFeedbackService.save(action.id, null, '', ctx.ui.actionEntryEnergy);
+          ActionFeedbackService.save(action.id, null, '', ctx.ui.actionEntryEnergy, false, ctx.ui.actionEntryEnergy === null ? null : ctx.ui.actionEntryEase);
         }
         ctx.clearDraft('act-title', 'act-reason', 'act-goal', 'act-experiment');
-        ctx.setUi({ actionEntryEnergy: null, feedbackActionId: null, activeActionId: null });
+        ctx.setUi({ actionEntryEnergy: null, actionEntryEase: null, feedbackActionId: null, activeActionId: null });
         ctx.toast(record ? '已記下，也會帶進回顧' : '已加入今天');
       },
     }, inputs: { 'act:goal': () => { ctx.clearDraft('act-experiment'); } } };

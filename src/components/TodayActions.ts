@@ -2,7 +2,7 @@
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
 import type { Action } from '../models/ActionModel';
 import { ACTION_DIRECTION_LABELS } from '../models/ActionFeedbackModel';
-import { ENERGY_OPTIONS } from '../models/GoodTimeModel';
+import { EASE_OPTIONS, ENERGY_OPTIONS } from '../models/GoodTimeModel';
 import { ActionService } from '../services/ActionService';
 import { ActionFeedbackService } from '../services/ActionFeedbackService';
 import { DateService } from '../services/DateService';
@@ -21,7 +21,7 @@ export class TodayActions {
     const goal = GoalService.getAll().find((g) => g.id === action.goalId);
     const experiment = ExperimentService.getAll().find((e) => e.id === action.experimentId);
     const energy = ENERGY_OPTIONS.find((e) => e.value === feedback?.energy);
-    const clue = [energy?.label, feedback?.isFlow ? '心流' : '', feedback?.direction ? ACTION_DIRECTION_LABELS[feedback.direction] : '', feedback?.note].filter(Boolean).join(' · ');
+    const clue = [energy?.label, EASE_OPTIONS.find((e) => e.value === feedback?.ease)?.label, feedback?.isFlow ? '心流' : '', feedback?.direction ? ACTION_DIRECTION_LABELS[feedback.direction] : '', feedback?.note].filter(Boolean).join(' · ');
     const source = experiment ?? goal;
     return `<div class="action-item" id="action-${action.id}" data-key="${action.id}" tabindex="-1">
       <div class="row action-row ${done ? 'is-done' : ''}">

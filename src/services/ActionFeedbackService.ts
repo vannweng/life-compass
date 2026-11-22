@@ -7,7 +7,7 @@ import type { ActionFeedback, ActionDirection, SuggestionResponse, WeeklySuggest
 import { DateService } from './DateService';
 import { STORAGE_KEYS, StorageService } from './StorageService';
 import { createId } from './TextService';
-import type { EnergyLevel } from '../models/GoodTimeModel';
+import type { EaseLevel, EnergyLevel } from '../models/GoodTimeModel';
 import { ActionService } from './ActionService';
 import { GoodTimeService } from './GoodTimeService';
 
@@ -30,16 +30,16 @@ export class ActionFeedbackService {
    * @param note 觀察、疑問或原因。
    * @returns 是否成功儲存。
    */
-  static save(actionId: string, direction: ActionDirection | null, note: string, energy: EnergyLevel | null = null, isFlow = false): boolean {
+  static save(actionId: string, direction: ActionDirection | null, note: string, energy: EnergyLevel | null = null, isFlow = false, ease: EaseLevel | null = null): boolean {
     const date = DateService.todayKey();
     const prior = this.getAll().find((item) => item.actionId === actionId && item.date === date);
     const step = ActionService.stepFor(actionId);
     const next: ActionFeedback = { id: prior?.id ?? createId('feedback'), actionId, date, direction,
-      note: note.trim(), energy, isFlow, step, createdAt: new Date().toISOString() };
+      note: note.trim(), energy, isFlow, ease, step, createdAt: new Date().toISOString() };
     const existing = this.getAll().filter((item) => item.actionId !== actionId || item.date !== date);
     return StorageService.setMany([
       { key: STORAGE_KEYS.ACTION_FEEDBACK, value: [...existing, next] },
-      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, step, energy, isFlow, date) },
+      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, step, energy, isFlow, ease, date) },
     ]);
   }
 
@@ -48,7 +48,7 @@ export class ActionFeedbackService {
     const date = DateService.todayKey();
     return StorageService.setMany([
       { key: STORAGE_KEYS.ACTION_FEEDBACK, value: this.getAll().filter((item) => item.actionId !== actionId || item.date !== date) },
-      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, '', null, false, date) },
+      { key: STORAGE_KEYS.GOOD_TIMES, value: GoodTimeService.nextForAction(actionId, '', null, false, null, date) },
     ]);
   }
 

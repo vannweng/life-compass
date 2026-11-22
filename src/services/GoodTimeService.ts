@@ -3,7 +3,7 @@
  * @module services/GoodTimeService
  */
 
-import type { EnergyLevel, GoodTimeEntry } from '../models/GoodTimeModel';
+import type { EaseLevel, EnergyLevel, GoodTimeEntry } from '../models/GoodTimeModel';
 import { DateService } from './DateService';
 import { STORAGE_KEYS, StorageService } from './StorageService';
 import { createId } from './TextService';
@@ -55,19 +55,19 @@ export class GoodTimeService {
   }
 
   /** 產生同一天同一行動的最新能量紀錄；未選能量時移除舊紀錄。 */
-  static nextForAction(actionId: string, activity: string, energy: EnergyLevel | null, isFlow: boolean, date = DateService.todayKey()): GoodTimeEntry[] {
+  static nextForAction(actionId: string, activity: string, energy: EnergyLevel | null, isFlow: boolean, ease: EaseLevel | null, date = DateService.todayKey()): GoodTimeEntry[] {
     const entries = this.getAll();
     const remaining = this.withoutAction(actionId, date, entries);
     if (energy === null) return remaining;
     const existing = entries.find((entry) => entry.actionId === actionId && entry.date === date);
     const entry: GoodTimeEntry = { id: existing?.id ?? createId('gt'), date,
-      time: existing?.time ?? DateService.nowTime(), actionId, activity, energy, isFlow };
+      time: existing?.time ?? DateService.nowTime(), actionId, activity, energy, isFlow, ease };
     return [entry, ...remaining];
   }
 
   /** 同一天同一行動只保留一筆能量紀錄，修改回饋不重複計數。 */
-  static saveForAction(actionId: string, activity: string, energy: EnergyLevel, isFlow: boolean): boolean {
-    return StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.nextForAction(actionId, activity, energy, isFlow));
+  static saveForAction(actionId: string, activity: string, energy: EnergyLevel, isFlow: boolean, ease: EaseLevel | null = null): boolean {
+    return StorageService.set(STORAGE_KEYS.GOOD_TIMES, this.nextForAction(actionId, activity, energy, isFlow, ease));
   }
 
   private static withoutAction(actionId: string, date: string, entries = this.getAll()): GoodTimeEntry[] {

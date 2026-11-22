@@ -3,7 +3,7 @@
  * @module models/ActionFeedbackModel
  */
 
-import type { EnergyLevel } from './GoodTimeModel';
+import type { EaseLevel, EnergyLevel } from './GoodTimeModel';
 
 /** @description 使用者目前的卡點類型。 */
 export type ActionBlocker = 'too-big' | 'unclear' | 'low-energy' | 'unsure';
@@ -24,6 +24,7 @@ export interface ActionFeedback {
   createdAt: string;
   energy?: EnergyLevel | null;
   isFlow?: boolean;
+  ease?: EaseLevel | null;
   step?: string;
 }
 

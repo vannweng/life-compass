@@ -7,3 +7,6 @@
 .compass-reflection__question { font-size: 14px; font-weight: 700; line-height: 1.55; margin-top: 8px; }
 .compass-reflection .link-btn { margin-top: 8px; }
 .backup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.strength-group { margin-top: 10px; }
+.strength-group__title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.strength-clues > .card__sub:last-child { margin-top: 10px; }
