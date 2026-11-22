@@ -29,11 +29,12 @@ export class ProfileModal {
   static render(profile: UserProfile): string {
     const s = LifeClockService.calculate(profile);
     const themes = THEMES.map((t) => `<button class="${profile.theme === t.id ? 'is-active' : ''}" data-action="profile:theme" data-id="${t.id}">${t.label}</button>`).join('');
+    const countdown = [{ id: 'on', label: '顯示' }, { id: 'off', label: '隱藏' }].map((o) => `<button class="${(o.id === 'on') === profile.showCountdown ? 'is-active' : ''}" data-action="profile:countdown" data-id="${o.id}">${o.label}</button>`).join('');
     return `<div class="modal-overlay" id="profile-modal"><div class="modal" role="dialog" aria-label="個人中心">
       <div class="modal__head"><h2>個人中心</h2><button class="icon-btn icon-btn--plain" data-action="profile:close" aria-label="關閉">${icon(ICONS.close)}</button></div>
-      <div class="card" style="margin-bottom:12px"><p class="context-label">餘生時鐘</p>
+      ${profile.showCountdown ? `<div class="card" style="margin-bottom:12px"><p class="context-label">餘生時鐘</p>
         <p class="num" style="font-size:30px;font-weight:800;color:var(--warm)" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</p>
-        <p class="muted" style="font-size:13px">秒 ≈ ${s.daysLeft.toLocaleString()} 天 ≈ ${s.summersLeft} 個夏天</p></div>
+        <p class="muted" style="font-size:13px">秒 ≈ ${s.daysLeft.toLocaleString()} 天 ≈ ${s.summersLeft} 個夏天</p></div>` : ''}
       <label class="field-label" for="pf-name">暱稱</label>
       <input class="field" id="pf-name" data-input="profile:name" value="${escapeHtml(profile.name)}" maxlength="12" />
       <label class="field-label" for="pf-birth">出生日期</label>
@@ -41,6 +42,8 @@ export class ProfileModal {
       <label class="field-label" for="pf-age">預期壽命：<b class="num" id="pf-age-val">${profile.expectedAge}</b> 歲</label>
       <input type="range" id="pf-age" data-input="profile:age" min="60" max="100" value="${profile.expectedAge}" style="width:100%;accent-color:var(--accent)" />
       <label class="field-label">外觀</label><div class="seg">${themes}</div>
+      <label class="field-label">餘生倒數</label><div class="seg">${countdown}</div>
+      <p class="muted" style="font-size:13px">隱藏後，今天頁與這裡不再顯示跳動的秒數；仍可從「今天是你人生的第 N 天」進入一生時間頁。</p>
       <label class="field-label" for="pf-life">我的人生觀</label>
       <textarea class="textarea" id="pf-life" data-input="profile:life" placeholder="你覺得什麼樣的人生是有意義的？">${escapeHtml(profile.compass.life)}</textarea>
       <label class="field-label" for="pf-work">我的工作觀</label>
@@ -65,6 +68,7 @@ export class ProfileModal {
     return {
       actions: {
         'profile:close': () => ctx.setUi({ showProfile: false }),
+        'profile:countdown': (el) => { ProfileService.update({ showCountdown: dataOf(el, 'id') !== 'off' }); ctx.refresh(); },
         'backup:export': () => { BackupService.download(); ctx.toast('已匯出備份檔'); },
         'profile:theme': (el) => {
           const id = dataOf(el, 'id');

@@ -32,6 +32,8 @@ export interface UserProfile {
   compass: CompassNote;
   /** 使用者選擇略過解鎖條件，直接使用「三種人生」 */
   odysseyUnlocked: boolean;
+  /** 是否在今天頁與個人中心顯示餘生倒數（預設顯示） */
+  showCountdown: boolean;
 }
 
 /** @description 預設預期壽命 */
@@ -47,4 +49,5 @@ export const DEFAULT_PROFILE: UserProfile = {
   reminderTime: '21:30',
   compass: { life: '', work: '' },
   odysseyUnlocked: false,
+  showCountdown: true,
 };

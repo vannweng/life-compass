@@ -20,10 +20,10 @@ export class TimeStrip {
     const s = LifeClockService.calculate(profile);
     return `<button class="time-strip" id="time-strip" type="button" data-action="life:open" aria-label="查看一生時間頁">
       <p class="time-strip__day">今天是你人生的第 <b class="num">${s.lifeDayNumber.toLocaleString()}</b> 天</p>
-      <div class="time-strip__future">
+      ${profile.showCountdown ? `<div class="time-strip__future">
         <span>今年還剩 <b class="num">${s.yearDaysLeft}</b> 天</span>
         <span>餘生 <b class="num" data-live="seconds">${LifeClockService.secondsLeft(profile).toLocaleString()}</b> 秒</span>
-      </div>
+      </div>` : ''}
     </button>`;
   }
 
