@@ -30,6 +30,8 @@ export interface UserProfile {
   /** 每日提醒時間 HH:mm */
   reminderTime: string;
   compass: CompassNote;
+  /** 使用者選擇略過解鎖條件，直接使用「三種人生」 */
+  odysseyUnlocked: boolean;
 }
 
 /** @description 預設預期壽命 */
@@ -44,4 +46,5 @@ export const DEFAULT_PROFILE: UserProfile = {
   onboardingCompleted: false,
   reminderTime: '21:30',
   compass: { life: '', work: '' },
+  odysseyUnlocked: false,
 };

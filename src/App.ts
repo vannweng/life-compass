@@ -55,7 +55,7 @@ export class App {
       showProfile: false, onboardingStep: preview || profile.onboardingCompleted ? null : 1,
       draftEnergy: 0, draftFlow: false, showExperimentForm: false, experimentPreset: '',
       activeIdeaId: null, activeActionId: null, actionBlocker: null, feedbackActionId: null, actionFeedbackDirection: null,
-      lastArchivedActionId: null, actionFeedbackEnergy: null, actionFeedbackFlow: false, actionFeedbackEase: null, actionEntryEase: null, actionEntryMode: 'record', actionEntryEnergy: null,
+      lastArchivedActionId: null, actionFeedbackEnergy: null, actionFeedbackFlow: false, actionFeedbackEase: null, actionEntryEase: null, odysseyStep: null, actionEntryMode: 'record', actionEntryEnergy: null,
       drafts: {}, scrollTarget: null,
       ...memory,
     };

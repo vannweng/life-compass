@@ -4,6 +4,8 @@
  */
 
 import type { TabId } from '../models/TabModel';
+import type { UserProfile } from '../models/ProfileModel';
+import { ReflectionService } from './ReflectionService';
 import { DateService } from './DateService';
 import { GoodTimeService } from './GoodTimeService';
 
@@ -26,7 +28,7 @@ export interface JourneyGuide {
   /** 進度 0–1 */
   progress: number;
   /** 行動按鈕（無則不顯示） */
-  cta: { label: string; tab: TabId } | null;
+  cta: { label: string; tab: TabId; section?: 'odyssey' } | null;
 }
 
 /**
@@ -55,7 +57,26 @@ export class JourneyService {
         cta: { label: '看我的線索', tab: 'explore' } };
     }
     return { stage: '想像', message: '線索夠多了，可以開始想像不同的路', progress,
-      hint: '用你發現的充能線索，試試「三種人生」，再回顧靠不靠近你說的有意義。',
-      cta: { label: '去回顧', tab: 'review' } };
+      hint: '用你發現的充能線索，試著寫下三種可能的人生，再回頭看哪一種最靠近你說的有意義。',
+      cta: { label: '想像三種人生', tab: 'explore', section: 'odyssey' } };
+  }
+
+  /**
+   * @description 「三種人生」是否仍鎖定：紀錄不足、尚未手動略過，且還沒寫過任何內容
+   * @param profile 使用者設定
+   * @returns 是否鎖定
+   */
+  static odysseyLocked(profile: UserProfile): boolean {
+    if (profile.odysseyUnlocked || GoodTimeService.getAll().length >= PATTERN_ENTRIES) return false;
+    const plans = Object.values(ReflectionService.getOdyssey());
+    return !plans.some((p) => p.title || p.year1 || p.year3 || p.year5 || p.like || p.confidence);
+  }
+
+  /**
+   * @description 距離解鎖還差幾筆紀錄
+   * @returns 剩餘筆數（最小 0）
+   */
+  static entriesToOdyssey(): number {
+    return Math.max(0, PATTERN_ENTRIES - GoodTimeService.getAll().length);
   }
 }

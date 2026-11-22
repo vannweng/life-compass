@@ -5,6 +5,9 @@
 
 import { ExplorationHub } from '../components/ExplorationHub';
 import { OdysseyBoard } from '../components/OdysseyBoard';
+import { OdysseyLock } from '../components/OdysseyLock';
+import { JourneyService } from '../services/JourneyService';
+import { ProfileService } from '../services/ProfileService';
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
 import { dataOf } from '../components/Dom';
 
@@ -24,7 +27,7 @@ export class ExploreView {
         <button class="btn btn--ghost ${odyssey ? '' : 'is-active'}" role="tab" aria-selected="${!odyssey}" data-action="explore:section" data-section="explore">探索自己</button>
         <button class="btn btn--ghost ${odyssey ? 'is-active' : ''}" role="tab" aria-selected="${odyssey}" data-action="explore:section" data-section="odyssey">三種人生</button>
       </div>
-      ${odyssey ? OdysseyBoard.render(ctx) : ExplorationHub.render(ctx)}
+      ${odyssey ? (JourneyService.odysseyLocked(ProfileService.get()) ? OdysseyLock.render() : OdysseyBoard.render(ctx)) : ExplorationHub.render(ctx)}
     </div>`;
   }
 
@@ -34,7 +37,7 @@ export class ExploreView {
    * @returns 處理器集合
    */
   static handlers(ctx: AppContext): Handlers {
-    return mergeHandlers(ExplorationHub.handlers(ctx), OdysseyBoard.handlers(ctx), {
+    return mergeHandlers(ExplorationHub.handlers(ctx), OdysseyBoard.handlers(ctx), OdysseyLock.handlers(ctx), {
       actions: { 'explore:section': (el) => ctx.setUi({ exploreSection: dataOf(el, 'section') === 'odyssey' ? 'odyssey' : 'explore' }) },
       inputs: {},
     });

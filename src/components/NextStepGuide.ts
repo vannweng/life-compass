@@ -19,7 +19,7 @@ export class NextStepGuide {
    */
   static render(): string {
     const g = JourneyService.guide();
-    const cta = g.cta ? `<button class="btn btn--primary" data-action="guide:go" data-tab="${g.cta.tab}">${escapeHtml(g.cta.label)}</button>` : '';
+    const cta = g.cta ? `<button class="btn btn--primary" data-action="guide:go" data-tab="${g.cta.tab}" data-section="${g.cta.section ?? ''}">${escapeHtml(g.cta.label)}</button>` : '';
     return `<section class="card next-step-guide" id="next-step-guide" aria-label="下一步">
       <p class="context-label">下一步 · ${escapeHtml(g.stage)}</p>
       <p class="next-step-guide__message">${escapeHtml(g.message)}</p>
@@ -38,7 +38,7 @@ export class NextStepGuide {
     return { actions: {
       'guide:go': (el) => {
         const tab = NAV_TABS.find((t) => t.id === dataOf(el, 'tab'));
-        if (tab) { ctx.setUi({ page: 'main', tab: tab.id }); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        if (tab) { ctx.setUi({ page: 'main', tab: tab.id, ...(dataOf(el, 'section') === 'odyssey' ? { exploreSection: 'odyssey' as const } : {}) }); window.scrollTo({ top: 0, behavior: 'smooth' }); }
       },
     }, inputs: {} };
   }

@@ -10,3 +10,9 @@
 .strength-group { margin-top: 10px; }
 .strength-group__title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
 .strength-clues > .card__sub:last-child { margin-top: 10px; }
+.odyssey-lock__title { font-size: 17px; font-weight: 700; margin-top: 4px; }
+.odyssey-clues { margin-bottom: var(--space-default); }
+.odyssey-clues__line { font-size: 14px; line-height: 1.6; margin-top: 8px; }
+.odyssey-step { margin: 12px 0; }
+.odyssey-step__nav { display: flex; gap: var(--gap-control); margin-top: 16px; }
+.odyssey-step__nav .btn--primary { flex: 1; }

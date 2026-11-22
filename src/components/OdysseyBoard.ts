@@ -4,17 +4,17 @@
  */
 
 import type { AppContext, Handlers } from '../models/AppContextModel';
-import { ODYSSEY_TEMPLATES, ODYSSEY_YEAR_PROMPTS, type OdysseyPlan } from '../models/OdysseyModel';
+import { ODYSSEY_TEMPLATES, ODYSSEY_YEAR_PROMPTS } from '../models/OdysseyModel';
 import { ReflectionService } from '../services/ReflectionService';
 import { IdeaService } from '../services/IdeaService';
 import { escapeHtml } from '../services/TextService';
 import { dataOf } from './Dom';
+import { OdysseyClues } from './OdysseyClues';
+import { OdysseyGuided, isEmptyPlan } from './OdysseyGuided';
+import { renderOdysseyRating } from './OdysseyRating';
 
 /** @description 可編輯的文字欄位 */
 type OdysseyField = 'title' | 'year1' | 'year3' | 'year5';
-/** @description 可評分欄位 */
-type OdysseyRating = 'like' | 'confidence';
-
 /**
  * @description 判斷是否為文字欄位
  * @param v 字串
@@ -29,18 +29,6 @@ function isField(v: string): v is OdysseyField {
  */
 export class OdysseyBoard {
   /**
-   * @description 渲染評分列
-   * @param plan 計畫
-   * @param key 評分欄位
-   * @param label 標籤
-   * @returns HTML 字串
-   */
-  private static rating(plan: OdysseyPlan, key: OdysseyRating, label: string): string {
-    const btns = [1, 2, 3, 4, 5].map((n) => `<button class="btn btn--ghost ${plan[key] === n ? 'is-active' : ''}" data-action="odyssey:rate" data-key="${key}" data-value="${n}" aria-pressed="${plan[key] === n}">${n}</button>`).join('');
-    return `<span class="field-label">${label}</span><div class="rating">${btns}</div>`;
-  }
-
-  /**
    * @description 渲染看板
    * @param ctx 應用上下文
    * @returns HTML 字串
@@ -54,13 +42,16 @@ export class OdysseyBoard {
     const years = (['year1', 'year3', 'year5'] as const).map((k) => `
       <label class="field-label" for="od-${k}">${ODYSSEY_YEAR_PROMPTS[k]}</label>
       <textarea class="textarea" id="od-${k}" style="min-height:64px" data-input="odyssey:${k}">${escapeHtml(plan[k])}</textarea>`).join('');
-    return `<section class="card" id="odyssey-board">
-      <div class="card__head"><h3>三種人生</h3></div>
-      <div class="odyssey-tabs">${tabs}</div>
-      <p style="font-weight:700;margin-bottom:8px">${tpl.guide}</p>
+    const full = `<p style="font-weight:700;margin-bottom:8px">${tpl.guide}</p>
       <input class="field" id="od-title" data-input="odyssey:title" placeholder="${tpl.placeholder}" value="${escapeHtml(plan.title)}" />
       <button class="link-btn odyssey-save-idea" data-action="odyssey:idea">存成待試點子</button>
-      ${years}${this.rating(plan, 'like', '這個人生我有多喜歡？')}${this.rating(plan, 'confidence', '我有多大信心做到？')}
+      ${years}${renderOdysseyRating(plan, 'like', '這個人生我有多喜歡？')}${renderOdysseyRating(plan, 'confidence', '我有多大信心做到？')}`;
+    const step = ctx.ui.odysseyStep;
+    const content = step !== null ? OdysseyGuided.step(step, plan, tpl) : isEmptyPlan(plan) ? OdysseyGuided.intro(tpl) : full;
+    return `${OdysseyClues.render()}<section class="card" id="odyssey-board">
+      <div class="card__head"><h3>三種人生</h3></div>
+      <div class="odyssey-tabs">${tabs}</div>
+      ${content}
     </section>`;
   }
 
@@ -78,9 +69,10 @@ export class OdysseyBoard {
     });
     return {
       actions: {
+        ...OdysseyGuided.handlers(ctx).actions,
         'odyssey:tab': (el) => {
           const t = dataOf(el, 'type');
-          if (t === 'current' || t === 'pivot' || t === 'wild') ctx.setUi({ odysseyType: t });
+          if (t === 'current' || t === 'pivot' || t === 'wild') ctx.setUi({ odysseyType: t, odysseyStep: null });
         },
         'odyssey:rate': (el) => {
           const key = dataOf(el, 'key');

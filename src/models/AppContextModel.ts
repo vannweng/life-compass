@@ -71,6 +71,8 @@ export interface UiState {
   actionFeedbackFlow: boolean;
   actionFeedbackEase: EaseLevel | null;
   actionEntryEase: EaseLevel | null;
+  /** 三種人生的引導題序（0–4）；null 表示顯示完整看板 */
+  odysseyStep: number | null;
   actionEntryMode: 'plan' | 'record';
   actionEntryEnergy: EnergyLevel | null;
   /** 尚未送出的輸入草稿（元素 ID → 文字），由組件於重繪時回填 */
