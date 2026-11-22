@@ -6,6 +6,7 @@
 import { CompassReflection } from '../components/CompassReflection';
 import { HistoryCalendar } from '../components/HistoryCalendar';
 import { LifeGrid } from '../components/LifeGrid';
+import { ReviewPipeline } from '../components/ReviewPipeline';
 import { WeeklyNextStep } from '../components/WeeklyNextStep';
 import { mergeHandlers, type AppContext, type Handlers } from '../models/AppContextModel';
 import type { UserProfile } from '../models/ProfileModel';
@@ -24,6 +25,7 @@ export class ReviewView {
     return `<div class="view" id="view-review">
       ${CompassReflection.render()}
       ${WeeklyNextStep.render()}
+      ${ReviewPipeline.render()}
       ${LifeGrid.renderMood()}
       ${HistoryCalendar.render(ctx)}
     </div>`;
@@ -35,6 +37,6 @@ export class ReviewView {
    * @returns 處理器集合
    */
   static handlers(ctx: AppContext): Handlers {
-    return mergeHandlers(CompassReflection.handlers(ctx), HistoryCalendar.handlers(ctx), WeeklyNextStep.handlers(ctx));
+    return mergeHandlers(CompassReflection.handlers(ctx), ReviewPipeline.handlers(ctx), HistoryCalendar.handlers(ctx), WeeklyNextStep.handlers(ctx));
   }
 }

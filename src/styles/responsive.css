@@ -37,7 +37,8 @@ main, .view > *, .card__head > div, .field-row > .field { min-width: 0; }
 @media (min-width: 768px) {
   :root { --max-w: 1120px; --nav-h: 62px; }
   .view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
-  #time-strip, #energy-insight, #odyssey-board, #life-clock-hero,
+  #time-strip, #energy-insight, #odyssey-board, #life-clock-hero, #next-step-guide, #compass-reflection,
+  #review-pipeline, #odyssey-clues, #odyssey-lock,
   #goal-library, #mood-trend, #weekly-next-step, #history-calendar, #life-grid { grid-column: 1 / -1; }
 }
 
